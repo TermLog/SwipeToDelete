@@ -15,7 +15,6 @@ public abstract class ContactAdapterUtils {
 
     public static final long DELETING_DURATION = 3000;
     public static final long PENDING_DURATION = DELETING_DURATION - 150;
-    public static final float DEVICE_SCREEN_WIDTH = 1080F;
 
     private ContactAdapterUtils() {
     }
@@ -34,12 +33,13 @@ public abstract class ContactAdapterUtils {
 
     public static ValueAnimator initAnimator(final View view, final ItemContact contact,
                                              ValueAnimator animator) {
+        final float screenWidth = MainActivity.sDeviceScreenWidth;
         if (animator == null) {
-            animator = ValueAnimator.ofFloat(contact.posX, DEVICE_SCREEN_WIDTH * contact.direction);
+            animator = ValueAnimator.ofFloat(contact.posX, screenWidth * contact.direction);
         } else {
             animator.removeAllUpdateListeners();
             animator.removeAllListeners();
-            animator.setFloatValues(contact.posX, DEVICE_SCREEN_WIDTH * contact.direction);
+            animator.setFloatValues(contact.posX, screenWidth * contact.direction);
         }
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -71,7 +71,7 @@ public abstract class ContactAdapterUtils {
             public void onAnimationRepeat(Animator animation) {
             }
         });
-        animator.setDuration((long) (DELETING_DURATION * (DEVICE_SCREEN_WIDTH - contact.posX * contact.direction) / DEVICE_SCREEN_WIDTH));
+        animator.setDuration((long) (DELETING_DURATION * (screenWidth - contact.posX * contact.direction) / screenWidth));
         return animator;
     }
 
