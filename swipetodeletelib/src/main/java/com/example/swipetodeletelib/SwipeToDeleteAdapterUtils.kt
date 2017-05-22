@@ -35,8 +35,8 @@ object SwipeToDeleteAdapterUtils {
         return initAnimator(view, options, context, null)
     }
 
-    fun initAnimator(view: View?, options: ModelOptions, context: Context,
-                     animator: ValueAnimator?): ValueAnimator {
+    fun initAnimator(view: View?, options: ModelOptions, context: Context, // TODO improve adding of custom animation to custom view. Maybe I should pass HashMap with animation and View and look over?
+                     animator: ValueAnimator?): ValueAnimator { // OR for example pass listener in this method and allow to full customize? It`s better way.
         var animator = animator
         val screenWidth = deviceWidth(context)
         if (animator == null) {
