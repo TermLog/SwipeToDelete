@@ -3,12 +3,11 @@ package com.example.swipetodeletelib
 import android.support.v7.widget.helper.ItemTouchHelper
 
 
-class ModelOptions {
-
-    internal var isPendingDelete = false
-    internal var isRunningAnimation = false
-    internal var direction: Int? = 0
-    internal var posX = 0f
+class ModelOptions<K>(var key: K) {
+    var isPendingDelete = false
+    var isRunningAnimation = false
+    var direction: Int? = 0
+    var posX = 0f
 
     internal fun setDirection(swipeDir: Int) {
         if (ItemTouchHelper.LEFT == swipeDir || ItemTouchHelper.START == swipeDir) direction = LEFT

@@ -8,7 +8,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
  * Created by AlexZandR on 4/24/17
  */
 
-class ContactItemTouchCallback(private val listener: ItemSwipeListener?) : ItemTouchHelper.Callback() {
+class ContactItemTouchCallbackk(private val listener: ItemSwipeListener?) : ItemTouchHelper.Callback() {
 
     private val swipeDirs = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.END or
             ItemTouchHelper.START
