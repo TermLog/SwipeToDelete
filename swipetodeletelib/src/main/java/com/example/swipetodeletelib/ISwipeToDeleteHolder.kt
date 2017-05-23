@@ -1,6 +1,5 @@
 package com.example.swipetodeletelib
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 
 
@@ -8,16 +7,20 @@ import android.view.View
  * Created by AlexZandR on 4/24/17.
  */
 
-interface SwipeToDeleteHolder<K> {
+interface ISwipeToDeleteHolder<K> {
 
     var listener: UndoClickListener<K>
 
-    var isPendingDelete: Boolean?
-    get() = isPendingDelete ?: false
-    set(value) {isPendingDelete = value}
-
+    var isPendingDelete: Boolean
+    /**
+     *  get() =
+     *  if (isPendingDelete!!) undoContainer
+     *  else itemContainer
+     *
+     */
     val topContainer: View
 
+    var key: K
 
 //    var deletedName = view.user_name_deleted
 //    var name = view.user_name
