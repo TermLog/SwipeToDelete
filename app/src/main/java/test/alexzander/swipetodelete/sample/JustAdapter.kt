@@ -1,8 +1,10 @@
 package test.alexzander.swipetodelete.sample
 
 import android.animation.Animator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +18,7 @@ class JustAdapter(val context: Context, val mutableList: MutableList<User>) : Re
 
     override fun getItemCount() = mutableList.size
 
-    override fun onBindViewHolder(holder: MyHolder?, position: Int) {
-        holder?.key = mutableList[position].id
+    override fun onBindViewHolder(holder: MyHolder, position: Int) {
         swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].id, position)
     }
 
@@ -26,7 +27,7 @@ class JustAdapter(val context: Context, val mutableList: MutableList<User>) : Re
         return MyHolder(view)
     }
 
-    override val animatorListener: AnimatorListener
+    override val animatorListener: AnimatorListener?
         get() = object : AnimatorListener {
             override fun onAnimationEnd(animation: Animator?, options: ModelOptions<*>) {
                 swipeToDeleteAdapter.holders[options.key]?.progressBar?.visibility = View.GONE
@@ -40,59 +41,71 @@ class JustAdapter(val context: Context, val mutableList: MutableList<User>) : Re
                 swipeToDeleteAdapter.holders[options.key]?.progressBar?.visibility = View.VISIBLE
 
             }
+
+            override fun onAnimationRepeat(animation: Animator, options: ModelOptions<*>) {
+                TODO("not implemented")
+            }
         }
 
-    override fun findPositionByKey(key: Int) = (0..mutableList.lastIndex).firstOrNull { mutableList[it].id == key }
+    override val animationUpdateListener: AnimationUpdateListener?
+    get() = object : AnimationUpdateListener {
+        override fun onAnimationUpdate(animation: ValueAnimator?, options: ModelOptions<*>) {
+            val posX = animation?.animatedValue as Float
+            swipeToDeleteAdapter.holders[options.key]?.progressBar?.x = posX
+            options.posX = posX
+        }
+    }
+
+    override fun deleteAction(item: User) = true
+
+    override fun onItemDeleted(item: User) {
+        Log.d("TestTag", "Item Deleted {$item.name}")
+    }
+
+    override fun onDeleteFailed(item: User) {
+        Log.d("TestTag", "Item Delete failed {$item.name}")
+    }
+
+    override fun findItemPositionByKey(key: Int) = (0..mutableList.lastIndex).firstOrNull { mutableList[it].id == key }
             ?: -1
 
-    override fun onBindCommonContact(holder: MyHolder?, key: Int, item: User) {
-        holder?.name?.text = item.name
-        holder?.phone?.text = item.id.toString()
-        holder?.contactContainer?.visibility = View.VISIBLE
-        holder?.undoData?.visibility = View.GONE
-        holder?.progressBar?.visibility = View.GONE
+    override fun onBindCommonItem(holder: MyHolder, key: Int, item: User) {
+        holder.name.text = item.name
+        holder.id.text = item.id.toString()
+        holder.contactContainer.visibility = View.VISIBLE
+        holder.undoData.visibility = View.GONE
+        holder.progressBar.visibility = View.GONE
     }
 
-    override fun onBindPendingContact(holder: MyHolder?, key: Int, item: User) {
-        holder?.deletedName?.text = "You have just deleted " + item.name
-        holder?.contactContainer?.visibility = View.GONE
-        holder?.undoData?.visibility = View.VISIBLE
-        holder?.progressBar?.visibility = View.VISIBLE
+    override fun onBindPendingItem(holder: MyHolder, key: Int, item: User) {
+        holder.deletedName.text = "You have just deleted " + item.name
+        holder.contactContainer.visibility = View.GONE
+        holder.undoData.visibility = View.VISIBLE
+        holder.progressBar.visibility = View.VISIBLE
+        holder.undoButton.setOnClickListener { swipeToDeleteAdapter.onUndo(key) }
     }
 
-    inner class MyHolder(view: View?) : RecyclerView.ViewHolder(view), ISwipeToDeleteHolder<Int> {
+    class MyHolder(view: View) : RecyclerView.ViewHolder(view), ISwipeToDeleteHolder<Int> {
 
-        var deletedName = view?.user_name_deleted
-        var name = view?.user_name
-        var phone = view?.user_phone_number
-        var contactContainer = view?.contact_container
-        var undoContainer = view?.undo_container
-        var undoData = view?.undo_data
-        var undoButton = view?.button_undo
-        var progressBar = view?.progress_indicator
+        var deletedName = view.user_name_deleted
+        var name = view.user_name
+        var id = view.user_id
+        var contactContainer = view.contact_container
+        var undoContainer = view.undo_container
+        var undoData = view.undo_data
+        var undoButton = view.button_undo
+        var progressBar = view.progress_indicator
 
-
-        override var listener: UndoClickListener<Int>
-            get() = listener
-            set(value) {
-                value
-            }
 
         override var isPendingDelete: Boolean = false
 
 
         override val topContainer: View
             get() =
-            if (isPendingDelete) undoContainer as View
-            else contactContainer as View
+            if (isPendingDelete) undoContainer
+            else contactContainer
 
         override var key: Int = -1
-
-
-
-        init {
-            undoButton?.setOnClickListener { listener.onUndoClick(key) }
-        }
 
 
     }

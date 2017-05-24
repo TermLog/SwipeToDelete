@@ -40,20 +40,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun initRecyclerView() {
-//        recyclerView.layoutManager = LinearLayoutManager(this, VERTICAL, false)
-//        adapter = ContactAdapter(ContactAdapterUtils.prepareContactList(50))
-//        recyclerView.adapter = adapter
-//
-//        val dividerItemDecoration = DividerItemDecoration(this, VERTICAL)
-//        recyclerView.addItemDecoration(dividerItemDecoration)
-//
-//        val touchCallback = ContactItemTouchCallbackk(adapter)
-//        val itemTouchHelper = ItemTouchHelper(touchCallback)
-//        itemTouchHelper.attachToRecyclerView(recyclerView)
-//    }
-
-
     fun prepareContactList(count: Int): MutableList<User> {
         val result = ArrayList<User>(count)
         (0..count - 1).mapTo(result) { User(it, "Name " + it.toString()) }
@@ -69,8 +55,7 @@ class MainActivity : AppCompatActivity() {
         val dividerItemDecoration = DividerItemDecoration(this, VERTICAL)
         recyclerView.addItemDecoration(dividerItemDecoration)
 
-        val touchCallback = ContactItemTouchCallback(adapter?.swipeToDeleteAdapter)
-        val itemTouchHelper = ItemTouchHelper(touchCallback)
+        val itemTouchHelper = ItemTouchHelper(adapter?.swipeToDeleteAdapter?.itemTouchCallBack)
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 

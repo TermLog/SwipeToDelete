@@ -9,4 +9,6 @@ interface AnimatorListener {
     fun onAnimationCancel(animation: Animator?, options: ModelOptions<*>)
 
     fun onAnimationStart(animation: Animator?, options: ModelOptions<*>)
+
+    fun onAnimationRepeat(animation: Animator, options: ModelOptions<*>)
 }

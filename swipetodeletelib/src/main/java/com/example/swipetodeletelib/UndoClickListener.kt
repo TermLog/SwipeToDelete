@@ -5,5 +5,5 @@ package com.example.swipetodeletelib
  */
 
 interface UndoClickListener<K> {
-    fun onUndoClick(key: K)
+    fun onUndo(key: K)
 }

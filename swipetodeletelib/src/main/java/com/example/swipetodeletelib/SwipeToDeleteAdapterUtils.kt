@@ -20,7 +20,7 @@ object SwipeToDeleteAdapterUtils {
         return size.x
     }
 
-    fun initAnimator(options: ModelOptions<*>, context: Context, animatorListener: AnimatorListener,
+    fun initAnimator(options: ModelOptions<*>, context: Context, animatorListener: AnimatorListener? = null,
                      valUpdateListener: AnimationUpdateListener? = null, valueAnimator: ValueAnimator? = null): ValueAnimator {
         var animator: ValueAnimator
         val screenWidth = deviceWidth(context)
@@ -33,21 +33,21 @@ object SwipeToDeleteAdapterUtils {
             animator.setFloatValues(options.posX, screenWidth * options.direction!!.toFloat())
         }
 
-        animator.addUpdateListener(valUpdateListener)
+        animator.addUpdateListener { animation -> valUpdateListener?.onAnimationUpdate(animation, options) }
         animator.addListener((object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator) {
                 options.isRunningAnimation = true
-                animatorListener.onAnimationStart(animation, options)
+                animatorListener?.onAnimationStart(animation, options)
             }
 
             override fun onAnimationEnd(animation: Animator) {
                 options.isRunningAnimation = false
-                animatorListener.onAnimationStart(animation, options)
+                animatorListener?.onAnimationEnd(animation, options)
             }
 
             override fun onAnimationCancel(animation: Animator) {
                 clearOptions(options)
-                animatorListener.onAnimationCancel(animation, options)
+                animatorListener?.onAnimationCancel(animation, options)
             }
 
             override fun onAnimationRepeat(animation: Animator) {

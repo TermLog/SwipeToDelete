@@ -89,7 +89,7 @@
                 android:singleLine="true" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/user_phone_number"
+                android:id="@+id/user_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"

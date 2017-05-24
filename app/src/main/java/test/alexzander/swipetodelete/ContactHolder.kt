@@ -14,7 +14,7 @@ class ContactHolder(view: View, listener: UndoClickListener) : RecyclerView.View
     var isPendingDelete = false
     var deletedName = view.user_name_deleted
     var name = view.user_name
-    var phone = view.user_phone_number
+    var phone = view.user_id
     var progressIndicator = view.progress_indicator
     var contactContainer = view.contact_container
     var undoContainer = view.undo_container
