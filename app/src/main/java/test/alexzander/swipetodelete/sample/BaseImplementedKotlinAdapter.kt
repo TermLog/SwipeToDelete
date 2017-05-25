@@ -34,10 +34,6 @@ class BaseImplementedKotlinAdapter(context: Context, var mutableList: MutableLis
         holder.userName.text = item.name
     }
 
-    override fun onBindPendingItem(holder: Holder, key: String, item: User) {
-        holder.userContainer.visibility = View.GONE
-    }
-
     override fun removeItem(key: String) {
         swipeToDeleteAdapter.removeItem(key)
     }

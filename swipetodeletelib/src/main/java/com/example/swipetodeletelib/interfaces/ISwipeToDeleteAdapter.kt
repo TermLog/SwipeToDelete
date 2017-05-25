@@ -11,7 +11,7 @@ interface ISwipeToDeleteAdapter<K, in V, in H> {
 
     fun onBindCommonItem(holder: H, key: K, item: V)
 
-    fun onBindPendingItem(holder: H, key: K, item: V)
+    fun onBindPendingItem(holder: H, key: K, item: V) {}
 
     fun onItemDeleted(item: V) {}
 

@@ -47,13 +47,11 @@ class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val ite
 
     override fun onItemSwiped(viewHolder: ISwipeToDeleteHolder<K>, swipeDir: Int) {
         val key = viewHolder.key
-        val position = swipeToDeleteAdapter.findItemPositionByKey(key)
-        val item = items[position]
-        if (modelOptions[key]?.isPendingDelete ?: false) removeItem(key, item, position)
+        if (modelOptions[key]?.isPendingDelete ?: false) removeItemByKey(key)
         else {
             modelOptions[key]?.isPendingDelete = true
             modelOptions[key]?.setDirection(swipeDir)
-            swipeToDeleteAdapter.notifyItemChanged(position)
+            swipeToDeleteAdapter.notifyItemChanged(swipeToDeleteAdapter.findItemPositionByKey(key))
         }
     }
 
@@ -71,7 +69,7 @@ class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val ite
 
     fun onBindPendingContact(holder: H, key: K, item: V, IAnimatorListener: IAnimatorListener? = null, IAnimationUpdateListener: IAnimationUpdateListener? = null) {
         swipeToDeleteAdapter.onBindPendingItem(holder, key, item)
-        pendingRemoveActions[key] ?: pendingRemoveActions.put(key, Runnable { removeItem(key, item, swipeToDeleteAdapter.findItemPositionByKey(key)) })
+        pendingRemoveActions[key] ?: pendingRemoveActions.put(key, Runnable { removeItemByKey(key) })
         handler.postDelayed(pendingRemoveActions[key], modelOptions[key]!!.pendingDuration)
         val animator: ValueAnimator?
         if (animatorsMap[key] != null) {
@@ -84,18 +82,13 @@ class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val ite
         animator?.start()
     }
 
-    fun removeItem(key: K, item: V, position: Int) {
-        removeItemFromList(key, item, position)
+    fun removeItemByKey(key: K) {
+        swipeToDeleteAdapter.removeItem(key)
     }
 
-    fun removeItem(key: K, item: V) { // Just for Java support
-        removeItemFromList(key, item, swipeToDeleteAdapter.findItemPositionByKey(key))
-    }
-
-    fun removeItem(key: K){ // Just for Java support
+    fun removeItem(key: K){
         val position = swipeToDeleteAdapter.findItemPositionByKey(key)
         removeItemFromList(key, items.removeAt(position), position)
-
     }
 
     fun removeItemFromList(key: K, item: V, position: Int) {

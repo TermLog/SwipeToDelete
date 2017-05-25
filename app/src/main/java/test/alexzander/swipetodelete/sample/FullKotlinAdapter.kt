@@ -24,15 +24,15 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
     val swipeToDeleteAdapter = SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteAdapter = this)
 
     init {
-        swipeToDeleteAdapter.deletingDuration = 1500
+        swipeToDeleteAdapter.deletingDuration = 6000
     }
 
     override fun getItemCount() = mutableList.size
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].id, position)
-        if (holder.key % 2 == 0) holder.contactContainer.setOnClickListener { mainActivityNavigation.navigateToBaseKotlinActivty() }
-        else holder.contactContainer.setOnClickListener { mainActivityNavigation.navigateToJavaActivty() }
+        if (holder.key % 2 == 0) holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToBaseKotlinActivty() }
+        else holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToJavaActivty() }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyHolder {
@@ -63,14 +63,14 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
     override fun onBindCommonItem(holder: MyHolder, key: Int, item: User) {
         holder.name.text = item.name
         holder.id.text = item.id.toString()
-        holder.contactContainer.visibility = View.VISIBLE
+        holder.itemContainer.visibility = View.VISIBLE
         holder.undoData.visibility = View.GONE
         holder.progressBar.visibility = View.GONE
     }
 
     override fun onBindPendingItem(holder: MyHolder, key: Int, item: User) {
         holder.deletedName.text = "You have just deleted {$item.name}"
-        holder.contactContainer.visibility = View.GONE
+        holder.itemContainer.visibility = View.GONE
         holder.undoData.visibility = View.VISIBLE
         holder.progressBar.visibility = View.VISIBLE
         holder.undoButton.setOnClickListener { swipeToDeleteAdapter.onUndo(key) }
@@ -81,7 +81,7 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
         var deletedName = view.user_name_deleted
         var name = view.user_name
         var id = view.user_id
-        var contactContainer = view.contact_container
+        var itemContainer = view.contact_container
         var undoContainer = view.undo_container
         var undoData = view.undo_data
         var undoButton = view.button_undo
@@ -90,7 +90,7 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
         override val topContainer: View
             get() =
             if (isPendingDelete) undoContainer
-            else contactContainer
+            else itemContainer
 
         override var key: Int = -1
 
