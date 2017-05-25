@@ -89,8 +89,8 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
     }
 
     @Override
-    public void removeItem(String key, User item) {
-        swipeToDeleteAdapter.removeItem(key, item);
+    public void removeItem(String key) {
+        swipeToDeleteAdapter.removeItem(key);
     }
 
     @Override

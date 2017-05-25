@@ -40,8 +40,8 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
         return MyHolder(view)
     }
 
-    override fun removeItem(key: Int, item: User) {
-        swipeToDeleteAdapter.removeItem(key, item)
+    override fun removeItem(key: Int) {
+        swipeToDeleteAdapter.removeItem(key)
     }
 
     override fun onAnimationEnd(animation: Animator?, options: ModelOptions<*>) {

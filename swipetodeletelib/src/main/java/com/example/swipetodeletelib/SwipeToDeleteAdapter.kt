@@ -92,6 +92,12 @@ class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val ite
         removeItemFromList(key, item, swipeToDeleteAdapter.findItemPositionByKey(key))
     }
 
+    fun removeItem(key: K){ // Just for Java support
+        val position = swipeToDeleteAdapter.findItemPositionByKey(key)
+        removeItemFromList(key, items.removeAt(position), position)
+
+    }
+
     fun removeItemFromList(key: K, item: V, position: Int) {
         handler.removeCallbacks(pendingRemoveActions.remove(key))
         pendingRemoveActions.remove(key)

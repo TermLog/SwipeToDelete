@@ -15,5 +15,5 @@ interface ISwipeToDeleteAdapter<K, in V, in H> {
 
     fun onItemDeleted(item: V) {}
 
-    fun removeItem(key: K, item: V)
+    fun removeItem(key: K)
 }

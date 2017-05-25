@@ -38,8 +38,8 @@ class BaseImplementedKotlinAdapter(context: Context, var mutableList: MutableLis
         holder.userContainer.visibility = View.GONE
     }
 
-    override fun removeItem(key: String, item: User) {
-        swipeToDeleteAdapter.removeItem(key, item)
+    override fun removeItem(key: String) {
+        swipeToDeleteAdapter.removeItem(key)
     }
 
     class Holder(view: View) : RecyclerView.ViewHolder(view), ISwipeToDeleteHolder<String> {
