@@ -38,6 +38,7 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
 
     public void setSwipeToDeleteAdapter(SwipeToDeleteAdapter swipeToDeleteAdapter) {
         this.swipeToDeleteAdapter = swipeToDeleteAdapter;
+        swipeToDeleteAdapter.setDeletingDuration(5000L);
     }
 
     @Override

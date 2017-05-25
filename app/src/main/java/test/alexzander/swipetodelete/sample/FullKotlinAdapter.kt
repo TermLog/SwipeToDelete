@@ -23,6 +23,10 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
 
     val swipeToDeleteAdapter = SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteAdapter = this)
 
+    init {
+        swipeToDeleteAdapter.deletingDuration = 1500
+    }
+
     override fun getItemCount() = mutableList.size
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {

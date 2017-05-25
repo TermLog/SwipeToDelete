@@ -31,14 +31,11 @@ class BaseImplementedKotlinAdapter(context: Context, var mutableList: MutableLis
 
     override fun onBindCommonItem(holder: Holder, key: String, item: User) {
         holder.userContainer.visibility = View.VISIBLE
-        holder.undoContainer.visibility = View.GONE
         holder.userName.text = item.name
     }
 
     override fun onBindPendingItem(holder: Holder, key: String, item: User) {
-        holder.undoContainer.visibility = View.VISIBLE
         holder.userContainer.visibility = View.GONE
-        holder.undoButton.setOnClickListener { swipeToDeleteAdapter.onUndo(key) }
     }
 
     override fun removeItem(key: String, item: User) {
@@ -50,14 +47,9 @@ class BaseImplementedKotlinAdapter(context: Context, var mutableList: MutableLis
         var userContainer = view.user_container
         var userName = view.user_name
 
-        var undoContainer = view.user_undo_container
-        var undoButton = view.user_button_undo
-
         override var isPendingDelete: Boolean = false
 
-        override val topContainer: View
-            get() = if (isPendingDelete) undoContainer
-            else userContainer
+        override val topContainer = userContainer!!
 
         override var key: String = ""
     }

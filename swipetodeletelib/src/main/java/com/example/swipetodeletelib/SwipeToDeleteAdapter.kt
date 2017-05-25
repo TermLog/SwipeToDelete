@@ -28,7 +28,7 @@ class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val ite
     fun onBindViewHolder(holder: H, key: K, position: Int) {
         try {
             holder.key = key
-            if (!modelOptions.containsKey(key)) modelOptions.put(key, ModelOptions(key, deletingDuration ?: 3000))
+            if (!modelOptions.containsKey(key)) modelOptions.put(key, ModelOptions(key, deletingDuration ?: 0))
             val item = items[position]
             if (item == null) {
                 items.removeAt(position)
