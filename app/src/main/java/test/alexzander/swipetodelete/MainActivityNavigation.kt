@@ -2,7 +2,7 @@ package test.alexzander.swipetodelete
 
 
 interface MainActivityNavigation {
-    fun navigateToBaseKotlinActivty()
+    fun navigateToBaseKotlinActivity()
 
-    fun navigateToJavaActivty()
+    fun navigateToJavaActivity()
 }

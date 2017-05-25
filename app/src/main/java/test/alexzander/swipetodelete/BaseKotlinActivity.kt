@@ -29,7 +29,7 @@ class BaseKotlinActivity : AppCompatActivity() {
 
     fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-        adapter = BaseImplementedKotlinAdapter(this, Utility.prepareContactList(60))
+        adapter = BaseImplementedKotlinAdapter(this, prepareContactList(60))
         recyclerView.adapter = adapter
 
         val dividerItemDecoration = DividerItemDecoration(this, LinearLayout.VERTICAL)

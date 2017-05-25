@@ -105,6 +105,7 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
 
         AppCompatTextView userName;
         FrameLayout undoContainer;
+
         boolean isPendingDelete;
         String key;
 

@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), MainActivityNavigation {
 
     fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this, VERTICAL, false)
-        adapter = FullKotlinAdapter(this, Utility.prepareContactList(60), this)
+        adapter = FullKotlinAdapter(this, prepareContactList(60), this)
         recyclerView.adapter = adapter
 
         val dividerItemDecoration = DividerItemDecoration(this, VERTICAL)
@@ -39,11 +39,11 @@ class MainActivity : AppCompatActivity(), MainActivityNavigation {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    override fun navigateToBaseKotlinActivty() {
+    override fun navigateToBaseKotlinActivity() {
         startActivity(Intent(this, BaseKotlinActivity::class.java))
     }
 
-    override fun navigateToJavaActivty() {
+    override fun navigateToJavaActivity() {
         startActivity(Intent(this, JavaActivity::class.java))
     }
 

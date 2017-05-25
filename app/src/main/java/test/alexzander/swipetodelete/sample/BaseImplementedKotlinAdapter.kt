@@ -16,10 +16,8 @@ class BaseImplementedKotlinAdapter(context: Context, var mutableList: MutableLis
 
     val swipeToDeleteAdapter = SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteAdapter = this)
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): Holder {
-        val view = LayoutInflater.from(parent?.context).inflate(user_item, parent, false)
-        return Holder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) =
+            Holder(LayoutInflater.from(parent?.context).inflate(user_item, parent, false))
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].name, position)

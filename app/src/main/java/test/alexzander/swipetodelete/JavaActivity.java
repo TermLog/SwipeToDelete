@@ -14,6 +14,7 @@ import com.example.swipetodeletelib.SwipeToDeleteAdapter;
 import test.alexzander.swipetodelete.sample.JavaAdapter;
 
 import static android.widget.LinearLayout.VERTICAL;
+import static test.alexzander.swipetodelete.UtilityKt.prepareContactList;
 
 public class JavaActivity extends AppCompatActivity {
 
@@ -42,7 +43,7 @@ public class JavaActivity extends AppCompatActivity {
 
     private void initJavaAdapter() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, VERTICAL, false));
-        JavaAdapter adapter = new JavaAdapter(Utility.INSTANCE.prepareContactList(60));
+        JavaAdapter adapter = new JavaAdapter(prepareContactList(60));
         adapter.setSwipeToDeleteAdapter(new SwipeToDeleteAdapter(adapter.getUsers(), this, adapter));
 
         recyclerView.setAdapter(adapter);

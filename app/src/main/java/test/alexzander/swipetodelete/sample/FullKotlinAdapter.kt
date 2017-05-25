@@ -23,22 +23,18 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
 
     val swipeToDeleteAdapter = SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteAdapter = this)
 
-    init {
-        swipeToDeleteAdapter.deletingDuration = 6000
-    }
+    init { swipeToDeleteAdapter.deletingDuration = 6000 }
 
     override fun getItemCount() = mutableList.size
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].id, position)
-        if (holder.key % 2 == 0) holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToBaseKotlinActivty() }
-        else holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToJavaActivty() }
+        if (holder.key % 2 == 0) holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToBaseKotlinActivity() }
+        else holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToJavaActivity() }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(list_item, parent, false)
-        return MyHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) =
+            MyHolder(LayoutInflater.from(parent?.context).inflate(list_item, parent, false))
 
     override fun removeItem(key: Int) {
         swipeToDeleteAdapter.removeItem(key)
@@ -91,10 +87,7 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
             get() =
             if (isPendingDelete) undoContainer
             else itemContainer
-
         override var key: Int = -1
-
         override var isPendingDelete: Boolean = false
-
     }
 }
