@@ -34,7 +34,7 @@ override var isPendingDelete: Boolean = false
 ```
 
 
-* Also you need to make default key in holder by you self 
+* Also you need to make default key in holder by yourself 
 ```
 override var key: Int = -1
 ```
