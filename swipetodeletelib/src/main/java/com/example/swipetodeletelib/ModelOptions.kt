@@ -2,7 +2,11 @@ package com.example.swipetodeletelib
 
 import android.support.v7.widget.helper.ItemTouchHelper
 
-class ModelOptions<K>(var key: K) {
+class ModelOptions<K>(var key: K, var deletingDuration: Long) {
+    val pendingDuration: Long
+        get() =
+        if ((deletingDuration - 150) <= 0) 150
+        else deletingDuration - 150
     var isPendingDelete = false
     var isRunningAnimation = false
     var direction: Int? = 0

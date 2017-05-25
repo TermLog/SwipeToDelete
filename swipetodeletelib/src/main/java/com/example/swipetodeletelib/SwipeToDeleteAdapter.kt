@@ -5,12 +5,12 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import com.example.swipetodeletelib.SwipeToDeleteAdapterUtils.PENDING_DURATION
 import com.example.swipetodeletelib.interfaces.*
 import java.lang.IndexOutOfBoundsException
 
 class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val items: MutableList<V>,
                                                                  val context: Context, val swipeToDeleteAdapter: ISwipeToDeleteAdapter<K, V, H>) : ItemSwipeListener<K>, IUndoClickListener<K> {
+    var deletingDuration: Long? = null
     val itemTouchCallBack = ContactItemTouchCallback(this)
     val handler = Handler(Looper.getMainLooper())
     val pendingRemoveActions = HashMap<K, Runnable?>(1)
@@ -28,7 +28,7 @@ class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val ite
     fun onBindViewHolder(holder: H, key: K, position: Int) {
         try {
             holder.key = key
-            if (!modelOptions.containsKey(key)) modelOptions.put(key, ModelOptions(key))
+            if (!modelOptions.containsKey(key)) modelOptions.put(key, ModelOptions(key, deletingDuration ?: 3000))
             val item = items[position]
             if (item == null) {
                 items.removeAt(position)
@@ -72,7 +72,7 @@ class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val ite
     fun onBindPendingContact(holder: H, key: K, item: V, IAnimatorListener: IAnimatorListener? = null, IAnimationUpdateListener: IAnimationUpdateListener? = null) {
         swipeToDeleteAdapter.onBindPendingItem(holder, key, item)
         pendingRemoveActions[key] ?: pendingRemoveActions.put(key, Runnable { removeItem(key, item, swipeToDeleteAdapter.findItemPositionByKey(key)) })
-        handler.postDelayed(pendingRemoveActions[key], PENDING_DURATION)
+        handler.postDelayed(pendingRemoveActions[key], modelOptions[key]!!.pendingDuration)
         val animator: ValueAnimator?
         if (animatorsMap[key] != null) {
             animator = animatorsMap[key]

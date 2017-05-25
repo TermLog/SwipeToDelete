@@ -11,9 +11,6 @@ import com.example.swipetodeletelib.interfaces.IAnimatorListener
 
 object SwipeToDeleteAdapterUtils {
 
-    val DELETING_DURATION: Long = 3000
-    val PENDING_DURATION = DELETING_DURATION - 150
-
     private fun deviceWidth(context: Context): Int {
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val display = wm.defaultDisplay
@@ -55,7 +52,7 @@ object SwipeToDeleteAdapterUtils {
                 animatorListener?.onAnimationRepeat(animation, options)
             }
         }))
-        animator.duration = (DELETING_DURATION * (screenWidth - options.posX * options.direction!!.toFloat()) / screenWidth).toLong()
+        animator.duration = (options.deletingDuration * (screenWidth - options.posX * options.direction!!.toFloat()) / screenWidth).toLong()
         return animator
     }
 
