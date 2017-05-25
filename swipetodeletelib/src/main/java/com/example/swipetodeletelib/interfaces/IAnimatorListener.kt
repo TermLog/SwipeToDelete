@@ -1,9 +1,10 @@
-package com.example.swipetodeletelib
+package com.example.swipetodeletelib.interfaces
 
 import android.animation.Animator
+import com.example.swipetodeletelib.ModelOptions
 
 
-interface AnimatorListener {
+interface IAnimatorListener {
     fun onAnimationEnd(animation: Animator?, options: ModelOptions<*>) {}
 
     fun onAnimationCancel(animation: Animator?, options: ModelOptions<*>) {}

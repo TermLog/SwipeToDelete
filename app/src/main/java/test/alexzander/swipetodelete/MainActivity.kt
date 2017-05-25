@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import test.alexzander.swipetodelete.sample.FullKotlinAdapter
 
-class MainActivity : AppCompatActivity(), MainActivityNavigation{
+class MainActivity : AppCompatActivity(), MainActivityNavigation {
 
     var adapter: FullKotlinAdapter? = null
 

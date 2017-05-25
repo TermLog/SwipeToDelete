@@ -1,4 +1,4 @@
-package com.example.swipetodeletelib
+package com.example.swipetodeletelib.interfaces
 
 
 interface ISwipeToDeleteAdapter<K, in V, in H> {
@@ -7,7 +7,7 @@ interface ISwipeToDeleteAdapter<K, in V, in H> {
 
     fun notifyItemChanged(position: Int)
 
-    fun findItemPositionByKey(key: K) : Int
+    fun findItemPositionByKey(key: K): Int
 
     fun onBindCommonItem(holder: H, key: K, item: V)
 

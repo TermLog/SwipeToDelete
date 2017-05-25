@@ -1,14 +1,10 @@
-package test.alexzander.swipetodelete
+package com.example.swipetodeletelib
 
 import android.graphics.Canvas
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import com.example.swipetodeletelib.ISwipeToDeleteHolder
-import com.example.swipetodeletelib.ItemSwipeListener
-
-/**
- * Created by AlexZandR on 4/24/17
- */
+import com.example.swipetodeletelib.interfaces.ISwipeToDeleteHolder
+import com.example.swipetodeletelib.interfaces.ItemSwipeListener
 
 class ContactItemTouchCallback<K>(private val listener: ItemSwipeListener<K>?) : ItemTouchHelper.Callback() {
 

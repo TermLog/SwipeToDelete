@@ -6,23 +6,23 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import com.example.swipetodeletelib.SwipeToDeleteAdapterUtils.PENDING_DURATION
-import test.alexzander.swipetodelete.ContactItemTouchCallback
+import com.example.swipetodeletelib.interfaces.*
 import java.lang.IndexOutOfBoundsException
 
 class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val items: MutableList<V>,
-                                                                 val context: Context, val swipeToDeleteAdapter: ISwipeToDeleteAdapter<K, V, H>) : ItemSwipeListener<K>, UndoClickListener<K> {
+                                                                 val context: Context, val swipeToDeleteAdapter: ISwipeToDeleteAdapter<K, V, H>) : ItemSwipeListener<K>, IUndoClickListener<K> {
     val itemTouchCallBack = ContactItemTouchCallback(this)
     val handler = Handler(Looper.getMainLooper())
     val pendingRemoveActions = HashMap<K, Runnable?>(1)
     val animatorsMap = HashMap<K, ValueAnimator>(1)
     val modelOptions = HashMap<K, ModelOptions<K>>()
     val holders = HashMap<K, H>()
-    var animationUpdateListener: AnimationUpdateListener? = null
-    var animatorListener: AnimatorListener? = null
+    var animationUpdateListener: IAnimationUpdateListener? = null
+    var animatorListener: IAnimatorListener? = null
 
     init {
-        if (swipeToDeleteAdapter is AnimatorListener) animatorListener = swipeToDeleteAdapter
-        if (swipeToDeleteAdapter is AnimationUpdateListener) animationUpdateListener = swipeToDeleteAdapter
+        if (swipeToDeleteAdapter is IAnimatorListener) animatorListener = swipeToDeleteAdapter
+        if (swipeToDeleteAdapter is IAnimationUpdateListener) animationUpdateListener = swipeToDeleteAdapter
     }
 
     fun onBindViewHolder(holder: H, key: K, position: Int) {
@@ -69,16 +69,16 @@ class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val ite
         swipeToDeleteAdapter.onBindCommonItem(holder, key, item)
     }
 
-    fun onBindPendingContact(holder: H, key: K, item: V, animatorListener: AnimatorListener? = null, animationUpdateListener: AnimationUpdateListener? = null) {
+    fun onBindPendingContact(holder: H, key: K, item: V, IAnimatorListener: IAnimatorListener? = null, IAnimationUpdateListener: IAnimationUpdateListener? = null) {
         swipeToDeleteAdapter.onBindPendingItem(holder, key, item)
         pendingRemoveActions[key] ?: pendingRemoveActions.put(key, Runnable { removeItem(key, item, swipeToDeleteAdapter.findItemPositionByKey(key)) })
         handler.postDelayed(pendingRemoveActions[key], PENDING_DURATION)
         val animator: ValueAnimator?
         if (animatorsMap[key] != null) {
             animator = animatorsMap[key]
-            SwipeToDeleteAdapterUtils.initAnimator(modelOptions[key]!!, context, animatorListener, animationUpdateListener, animator)
+            SwipeToDeleteAdapterUtils.initAnimator(modelOptions[key]!!, context, IAnimatorListener, IAnimationUpdateListener, animator)
         } else {
-            animator = SwipeToDeleteAdapterUtils.initAnimator(modelOptions[key]!!, context, animatorListener, animationUpdateListener)
+            animator = SwipeToDeleteAdapterUtils.initAnimator(modelOptions[key]!!, context, IAnimatorListener, IAnimationUpdateListener)
             animatorsMap.put(key, animator)
         }
         animator?.start()

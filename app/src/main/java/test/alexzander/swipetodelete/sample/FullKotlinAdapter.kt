@@ -7,14 +7,19 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.swipetodeletelib.*
+import com.example.swipetodeletelib.ModelOptions
+import com.example.swipetodeletelib.SwipeToDeleteAdapter
+import com.example.swipetodeletelib.interfaces.IAnimationUpdateListener
+import com.example.swipetodeletelib.interfaces.IAnimatorListener
+import com.example.swipetodeletelib.interfaces.ISwipeToDeleteAdapter
+import com.example.swipetodeletelib.interfaces.ISwipeToDeleteHolder
 import kotlinx.android.synthetic.main.list_item.view.*
 import test.alexzander.swipetodelete.MainActivityNavigation
 import test.alexzander.swipetodelete.R.layout.list_item
 
 
 class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>, val mainActivityNavigation: MainActivityNavigation) :
-        RecyclerView.Adapter<FullKotlinAdapter.MyHolder>(), ISwipeToDeleteAdapter<Int, User, FullKotlinAdapter.MyHolder>, AnimationUpdateListener, AnimatorListener {
+        RecyclerView.Adapter<FullKotlinAdapter.MyHolder>(), ISwipeToDeleteAdapter<Int, User, FullKotlinAdapter.MyHolder>, IAnimationUpdateListener, IAnimatorListener {
 
     val swipeToDeleteAdapter = SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteAdapter = this)
 
@@ -60,7 +65,7 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
     }
 
     override fun onBindPendingItem(holder: MyHolder, key: Int, item: User) {
-        holder.deletedName.text = "You have just deleted " + item.name
+        holder.deletedName.text = "You have just deleted {$item.name}"
         holder.contactContainer.visibility = View.GONE
         holder.undoData.visibility = View.VISIBLE
         holder.progressBar.visibility = View.VISIBLE

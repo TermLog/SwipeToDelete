@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:gravity="center_vertical|start">
+              android:gravity="center_vertical|start"
+              android:orientation="horizontal">
+
     <FrameLayout
         android:id="@+id/user_undo_container"
         android:layout_width="match_parent"
@@ -34,7 +35,7 @@
                 android:paddingRight="8dp"
                 android:paddingStart="8dp"
                 android:text="UNDO"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"/>
         </LinearLayout>
     </FrameLayout>
 
@@ -44,6 +45,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:clickable="true"
+        android:focusable="true"
         android:visibility="visible">
 
         <LinearLayout
@@ -64,7 +66,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical|start"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/user_id"
@@ -74,7 +76,7 @@
                 android:gravity="center_vertical|start"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColor="@color/black_transparent_38" />
+                android:textColor="@color/black_transparent_38"/>
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>

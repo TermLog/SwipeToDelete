@@ -1,11 +1,6 @@
-package com.example.swipetodeletelib
+package com.example.swipetodeletelib.interfaces
 
 import android.view.View
-
-
-/**
- * Created by AlexZandR on 4/24/17.
- */
 
 interface ISwipeToDeleteHolder<K> {
 

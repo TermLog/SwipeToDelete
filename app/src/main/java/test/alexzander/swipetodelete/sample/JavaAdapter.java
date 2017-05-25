@@ -1,6 +1,5 @@
 package test.alexzander.swipetodelete.sample;
 
-import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-import com.example.swipetodeletelib.ISwipeToDeleteAdapter;
-import com.example.swipetodeletelib.ISwipeToDeleteHolder;
 import com.example.swipetodeletelib.SwipeToDeleteAdapter;
+import com.example.swipetodeletelib.interfaces.ISwipeToDeleteAdapter;
+import com.example.swipetodeletelib.interfaces.ISwipeToDeleteHolder;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -62,7 +61,7 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
     @Override
     public int findItemPositionByKey(String key) {
         for (int i = 0; i < users.size(); ++i) {
-            if (users.get(i).getName().equals(key) ) {
+            if (users.get(i).getName().equals(key)) {
                 return i;
             }
         }

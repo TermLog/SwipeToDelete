@@ -5,9 +5,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.swipetodeletelib.ISwipeToDeleteAdapter
-import com.example.swipetodeletelib.ISwipeToDeleteHolder
 import com.example.swipetodeletelib.SwipeToDeleteAdapter
+import com.example.swipetodeletelib.interfaces.ISwipeToDeleteAdapter
+import com.example.swipetodeletelib.interfaces.ISwipeToDeleteHolder
 import kotlinx.android.synthetic.main.user_item.view.*
 import test.alexzander.swipetodelete.R.layout.user_item
 

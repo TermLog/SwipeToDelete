@@ -6,6 +6,8 @@ import android.content.Context
 import android.graphics.Point
 import android.view.View
 import android.view.WindowManager
+import com.example.swipetodeletelib.interfaces.IAnimationUpdateListener
+import com.example.swipetodeletelib.interfaces.IAnimatorListener
 
 object SwipeToDeleteAdapterUtils {
 
@@ -20,13 +22,12 @@ object SwipeToDeleteAdapterUtils {
         return size.x
     }
 
-    fun initAnimator(options: ModelOptions<*>, context: Context, animatorListener: AnimatorListener? = null,
-                     valUpdateListener: AnimationUpdateListener? = null, valueAnimator: ValueAnimator? = null): ValueAnimator {
-        var animator: ValueAnimator
+    fun initAnimator(options: ModelOptions<*>, context: Context, animatorListener: IAnimatorListener? = null,
+                     valUpdateListener: IAnimationUpdateListener? = null, valueAnimator: ValueAnimator? = null): ValueAnimator {
+        val animator: ValueAnimator
         val screenWidth = deviceWidth(context)
-        if (valueAnimator == null) {
-            animator = ValueAnimator.ofFloat(options.posX, screenWidth * options.direction!!.toFloat())
-        } else {
+        if (valueAnimator == null) animator = ValueAnimator.ofFloat(options.posX, screenWidth * options.direction!!.toFloat())
+        else {
             animator = valueAnimator
             animator.removeAllUpdateListeners()
             animator.removeAllListeners()
@@ -51,7 +52,7 @@ object SwipeToDeleteAdapterUtils {
             }
 
             override fun onAnimationRepeat(animation: Animator) {
-                onAnimationRepeat(animation)
+                animatorListener?.onAnimationRepeat(animation, options)
             }
         }))
         animator.duration = (DELETING_DURATION * (screenWidth - options.posX * options.direction!!.toFloat()) / screenWidth).toLong()
