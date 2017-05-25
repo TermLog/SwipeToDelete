@@ -10,16 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.swipetodeletelib.*
 import kotlinx.android.synthetic.main.list_item.view.*
+import test.alexzander.swipetodelete.MainActivityNavigation
 import test.alexzander.swipetodelete.R.layout.list_item
 
 
-class JustAdapter(val context: Context, val mutableList: MutableList<User>) : RecyclerView.Adapter<JustAdapter.MyHolder>(), ISwipeToDeleteAdapter<Int, User, JustAdapter.MyHolder> {
+class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>, val mainActivityNavigation: MainActivityNavigation) : RecyclerView.Adapter<FullKotlinAdapter.MyHolder>(), ISwipeToDeleteAdapter<Int, User, FullKotlinAdapter.MyHolder> {
     val swipeToDeleteAdapter = SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteAdapter = this)
 
     override fun getItemCount() = mutableList.size
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].id, position)
+        if (holder.key % 2 == 0) holder.contactContainer.setOnClickListener { mainActivityNavigation.navigateToBaseKotlinActivty() }
+        else holder.contactContainer.setOnClickListener { mainActivityNavigation.navigateToJavaActivty() }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyHolder {
@@ -48,13 +51,13 @@ class JustAdapter(val context: Context, val mutableList: MutableList<User>) : Re
         }
 
     override val animationUpdateListener: AnimationUpdateListener?
-    get() = object : AnimationUpdateListener {
-        override fun onAnimationUpdate(animation: ValueAnimator?, options: ModelOptions<*>) {
-            val posX = animation?.animatedValue as Float
-            swipeToDeleteAdapter.holders[options.key]?.progressBar?.x = posX
-            options.posX = posX
+        get() = object : AnimationUpdateListener {
+            override fun onAnimationUpdate(animation: ValueAnimator?, options: ModelOptions<*>) {
+                val posX = animation?.animatedValue as Float
+                swipeToDeleteAdapter.holders[options.key]?.progressBar?.x = posX
+                options.posX = posX
+            }
         }
-    }
 
     override fun deleteAction(item: User) = true
 
@@ -85,7 +88,7 @@ class JustAdapter(val context: Context, val mutableList: MutableList<User>) : Re
         holder.undoButton.setOnClickListener { swipeToDeleteAdapter.onUndo(key) }
     }
 
-    class MyHolder(view: View) : RecyclerView.ViewHolder(view), ISwipeToDeleteHolder<Int> {
+    inner class MyHolder(view: View) : RecyclerView.ViewHolder(view), ISwipeToDeleteHolder<Int> {
 
         var deletedName = view.user_name_deleted
         var name = view.user_name
@@ -96,10 +99,6 @@ class JustAdapter(val context: Context, val mutableList: MutableList<User>) : Re
         var undoButton = view.button_undo
         var progressBar = view.progress_indicator
 
-
-        override var isPendingDelete: Boolean = false
-
-
         override val topContainer: View
             get() =
             if (isPendingDelete) undoContainer
@@ -107,6 +106,7 @@ class JustAdapter(val context: Context, val mutableList: MutableList<User>) : Re
 
         override var key: Int = -1
 
+        override var isPendingDelete: Boolean = false
 
     }
 }

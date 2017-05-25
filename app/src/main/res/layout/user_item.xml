@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:animateLayoutChanges="true"
-    android:gravity="center_vertical|start">
-
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical|start">
     <FrameLayout
-        android:id="@+id/undo_container"
+        android:id="@+id/user_undo_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/deleted_contact_background">
 
-        <View
-            android:id="@+id/progress_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_gravity="bottom"
-            android:background="@android:color/white"
-            android:visibility="gone" />
 
         <LinearLayout
-            android:id="@+id/undo_data"
+            android:id="@+id/user_undo_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|start"
@@ -31,20 +22,8 @@
             android:paddingRight="16dp"
             android:paddingStart="16dp">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/user_name_deleted"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center_vertical|start"
-                android:maxLines="2"
-                android:textColor="@android:color/white" />
-
             <Button
-                android:id="@+id/button_undo"
+                android:id="@+id/user_button_undo"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -60,7 +39,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/contact_container"
+        android:id="@+id/user_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
@@ -98,4 +77,4 @@
                 android:textColor="@color/black_transparent_38" />
         </LinearLayout>
     </FrameLayout>
-</FrameLayout>
+</LinearLayout>

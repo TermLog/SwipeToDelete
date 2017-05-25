@@ -1,24 +1,25 @@
 package test.alexzander.swipetodelete
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.widget.LinearLayout.VERTICAL
+import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import test.alexzander.swipetodelete.sample.FullKotlinAdapter
+import test.alexzander.swipetodelete.sample.BaseImplementedKotlinAdapter
 
-class MainActivity : AppCompatActivity(), MainActivityNavigation{
+class BaseKotlinActivity : AppCompatActivity() {
 
-    var adapter: FullKotlinAdapter? = null
+    var adapter: BaseImplementedKotlinAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_base_kotlin)
         setSupportActionBar(toolbar)
+        supportActionBar?.setTitle("BaseKotlinActivity")
         initRecyclerView()
     }
 
@@ -28,23 +29,14 @@ class MainActivity : AppCompatActivity(), MainActivityNavigation{
     }
 
     fun initRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(this, VERTICAL, false)
-        adapter = FullKotlinAdapter(this, Utility.prepareContactList(60), this)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        adapter = BaseImplementedKotlinAdapter(this, Utility.prepareContactList(60))
         recyclerView.adapter = adapter
 
-        val dividerItemDecoration = DividerItemDecoration(this, VERTICAL)
+        val dividerItemDecoration = DividerItemDecoration(this, LinearLayout.VERTICAL)
         recyclerView.addItemDecoration(dividerItemDecoration)
 
         val itemTouchHelper = ItemTouchHelper(adapter?.swipeToDeleteAdapter?.itemTouchCallBack)
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
-
-    override fun navigateToBaseKotlinActivty() {
-        startActivity(Intent(this, BaseKotlinActivity::class.java))
-    }
-
-    override fun navigateToJavaActivty() {
-        startActivity(Intent(this, JavaActivity::class.java))
-    }
-
 }
