@@ -42,7 +42,7 @@ public class JavaActivity extends AppCompatActivity {
 
     private void initJavaAdapter() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, VERTICAL, false));
-        JavaAdapter adapter = new JavaAdapter(this, Utility.INSTANCE.prepareContactList(60));
+        JavaAdapter adapter = new JavaAdapter(Utility.INSTANCE.prepareContactList(60));
         adapter.setSwipeToDeleteAdapter(new SwipeToDeleteAdapter(adapter.getUsers(), this, adapter));
 
         recyclerView.setAdapter(adapter);

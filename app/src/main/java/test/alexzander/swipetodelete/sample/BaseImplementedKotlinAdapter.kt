@@ -5,12 +5,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.swipetodeletelib.*
+import com.example.swipetodeletelib.ISwipeToDeleteAdapter
+import com.example.swipetodeletelib.ISwipeToDeleteHolder
+import com.example.swipetodeletelib.SwipeToDeleteAdapter
 import kotlinx.android.synthetic.main.user_item.view.*
 import test.alexzander.swipetodelete.R.layout.user_item
 
-
-class BaseImplementedKotlinAdapter(context: Context, var mutableList: MutableList<User>) : RecyclerView.Adapter<BaseImplementedKotlinAdapter.Holder>(), ISwipeToDeleteAdapter<String, User, BaseImplementedKotlinAdapter.Holder> {
+class BaseImplementedKotlinAdapter(context: Context, var mutableList: MutableList<User>) :
+        RecyclerView.Adapter<BaseImplementedKotlinAdapter.Holder>(), ISwipeToDeleteAdapter<String, User, BaseImplementedKotlinAdapter.Holder> {
 
     val swipeToDeleteAdapter = SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteAdapter = this)
 
@@ -25,13 +27,7 @@ class BaseImplementedKotlinAdapter(context: Context, var mutableList: MutableLis
 
     override fun getItemCount() = mutableList.size
 
-    override val animatorListener: AnimatorListener?
-        get() = null
-    override val animationUpdateListener: AnimationUpdateListener?
-        get() = null
-
     override fun findItemPositionByKey(key: String) = (0..mutableList.lastIndex).firstOrNull { mutableList[it].name == key } ?: -1
-
 
     override fun onBindCommonItem(holder: Holder, key: String, item: User) {
         holder.userContainer.visibility = View.VISIBLE
@@ -45,16 +41,8 @@ class BaseImplementedKotlinAdapter(context: Context, var mutableList: MutableLis
         holder.undoButton.setOnClickListener { swipeToDeleteAdapter.onUndo(key) }
     }
 
-    override fun deleteAction(item: User): Boolean {
-       return true
-    }
-
-    override fun onItemDeleted(item: User) {
-
-    }
-
-    override fun onDeleteFailed(item: User) {
-
+    override fun removeItem(key: String, item: User) {
+        swipeToDeleteAdapter.removeItem(key, item)
     }
 
     class Holder(view: View) : RecyclerView.ViewHolder(view), ISwipeToDeleteHolder<String> {
@@ -68,8 +56,7 @@ class BaseImplementedKotlinAdapter(context: Context, var mutableList: MutableLis
         override var isPendingDelete: Boolean = false
 
         override val topContainer: View
-            get() =
-            if (isPendingDelete) undoContainer
+            get() = if (isPendingDelete) undoContainer
             else userContainer
 
         override var key: String = ""

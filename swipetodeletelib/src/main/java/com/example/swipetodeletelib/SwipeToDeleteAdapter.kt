@@ -10,13 +10,20 @@ import test.alexzander.swipetodelete.ContactItemTouchCallback
 import java.lang.IndexOutOfBoundsException
 
 class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val items: MutableList<V>,
-                                                                    val context: Context, val swipeToDeleteAdapter: ISwipeToDeleteAdapter<K, V, H>) : ItemSwipeListener<K>, UndoClickListener<K> {
+                                                                 val context: Context, val swipeToDeleteAdapter: ISwipeToDeleteAdapter<K, V, H>) : ItemSwipeListener<K>, UndoClickListener<K> {
     val itemTouchCallBack = ContactItemTouchCallback(this)
     val handler = Handler(Looper.getMainLooper())
     val pendingRemoveActions = HashMap<K, Runnable?>(1)
     val animatorsMap = HashMap<K, ValueAnimator>(1)
     val modelOptions = HashMap<K, ModelOptions<K>>()
     val holders = HashMap<K, H>()
+    var animationUpdateListener: AnimationUpdateListener? = null
+    var animatorListener: AnimatorListener? = null
+
+    init {
+        if (swipeToDeleteAdapter is AnimatorListener) animatorListener = swipeToDeleteAdapter
+        if (swipeToDeleteAdapter is AnimationUpdateListener) animationUpdateListener = swipeToDeleteAdapter
+    }
 
     fun onBindViewHolder(holder: H, key: K, position: Int) {
         try {
@@ -29,11 +36,9 @@ class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val ite
             } else {
                 holders[key] = holder
                 holder.isPendingDelete = modelOptions[key]!!.isPendingDelete
-                if (modelOptions[key]!!.isPendingDelete) {
-                    onBindPendingContact(holder, key, item, swipeToDeleteAdapter.animatorListener, swipeToDeleteAdapter.animationUpdateListener)
-                } else {
-                    onBindCommonContact(holder, key, item)
-                }
+
+                if (modelOptions[key]!!.isPendingDelete) onBindPendingContact(holder, key, item, animatorListener, animationUpdateListener)
+                else onBindCommonContact(holder, key, item)
             }
         } catch (exc: IndexOutOfBoundsException) {
             exc.printStackTrace()
@@ -44,9 +49,8 @@ class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val ite
         val key = viewHolder.key
         val position = swipeToDeleteAdapter.findItemPositionByKey(key)
         val item = items[position]
-        if (modelOptions[key]?.isPendingDelete ?: false) {
-            removeItem(key, item, position)
-        } else {
+        if (modelOptions[key]?.isPendingDelete ?: false) removeItem(key, item, position)
+        else {
             modelOptions[key]?.isPendingDelete = true
             modelOptions[key]?.setDirection(swipeDir)
             swipeToDeleteAdapter.notifyItemChanged(position)
@@ -81,11 +85,14 @@ class SwipeToDeleteAdapter<K, in V, H : ISwipeToDeleteHolder<K>>(private val ite
     }
 
     fun removeItem(key: K, item: V, position: Int) {
-        if (!swipeToDeleteAdapter.deleteAction(item)) {
-            swipeToDeleteAdapter.onDeleteFailed(item)
-            onUndo(key)
-            return
-        }
+        removeItemFromList(key, item, position)
+    }
+
+    fun removeItem(key: K, item: V) { // Just for Java support
+        removeItemFromList(key, item, swipeToDeleteAdapter.findItemPositionByKey(key))
+    }
+
+    fun removeItemFromList(key: K, item: V, position: Int) {
         handler.removeCallbacks(pendingRemoveActions.remove(key))
         pendingRemoveActions.remove(key)
         items.remove(item)

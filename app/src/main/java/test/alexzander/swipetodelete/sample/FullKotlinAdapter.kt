@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,9 @@ import test.alexzander.swipetodelete.MainActivityNavigation
 import test.alexzander.swipetodelete.R.layout.list_item
 
 
-class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>, val mainActivityNavigation: MainActivityNavigation) : RecyclerView.Adapter<FullKotlinAdapter.MyHolder>(), ISwipeToDeleteAdapter<Int, User, FullKotlinAdapter.MyHolder> {
+class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>, val mainActivityNavigation: MainActivityNavigation) :
+        RecyclerView.Adapter<FullKotlinAdapter.MyHolder>(), ISwipeToDeleteAdapter<Int, User, FullKotlinAdapter.MyHolder>, AnimationUpdateListener, AnimatorListener {
+
     val swipeToDeleteAdapter = SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteAdapter = this)
 
     override fun getItemCount() = mutableList.size
@@ -30,47 +31,25 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
         return MyHolder(view)
     }
 
-    override val animatorListener: AnimatorListener?
-        get() = object : AnimatorListener {
-            override fun onAnimationEnd(animation: Animator?, options: ModelOptions<*>) {
-                swipeToDeleteAdapter.holders[options.key]?.progressBar?.visibility = View.GONE
-            }
-
-            override fun onAnimationCancel(animation: Animator?, options: ModelOptions<*>) {
-
-            }
-
-            override fun onAnimationStart(animation: Animator?, options: ModelOptions<*>) {
-                swipeToDeleteAdapter.holders[options.key]?.progressBar?.visibility = View.VISIBLE
-
-            }
-
-            override fun onAnimationRepeat(animation: Animator, options: ModelOptions<*>) {
-                TODO("not implemented")
-            }
-        }
-
-    override val animationUpdateListener: AnimationUpdateListener?
-        get() = object : AnimationUpdateListener {
-            override fun onAnimationUpdate(animation: ValueAnimator?, options: ModelOptions<*>) {
-                val posX = animation?.animatedValue as Float
-                swipeToDeleteAdapter.holders[options.key]?.progressBar?.x = posX
-                options.posX = posX
-            }
-        }
-
-    override fun deleteAction(item: User) = true
-
-    override fun onItemDeleted(item: User) {
-        Log.d("TestTag", "Item Deleted {$item.name}")
+    override fun removeItem(key: Int, item: User) {
+        swipeToDeleteAdapter.removeItem(key, item)
     }
 
-    override fun onDeleteFailed(item: User) {
-        Log.d("TestTag", "Item Delete failed {$item.name}")
+    override fun onAnimationEnd(animation: Animator?, options: ModelOptions<*>) {
+        swipeToDeleteAdapter.holders[options.key]?.progressBar?.visibility = View.GONE
     }
 
-    override fun findItemPositionByKey(key: Int) = (0..mutableList.lastIndex).firstOrNull { mutableList[it].id == key }
-            ?: -1
+    override fun onAnimationUpdate(animation: ValueAnimator?, options: ModelOptions<*>) {
+        val posX = animation?.animatedValue as Float
+        swipeToDeleteAdapter.holders[options.key]?.progressBar?.x = posX
+        options.posX = posX
+    }
+
+    override fun onAnimationStart(animation: Animator?, options: ModelOptions<*>) {
+        swipeToDeleteAdapter.holders[options.key]?.progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun findItemPositionByKey(key: Int) = (0..mutableList.lastIndex).firstOrNull { mutableList[it].id == key } ?: -1
 
     override fun onBindCommonItem(holder: MyHolder, key: Int, item: User) {
         holder.name.text = item.name

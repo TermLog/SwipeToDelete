@@ -9,16 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-import com.example.swipetodeletelib.AnimationUpdateListener;
-import com.example.swipetodeletelib.AnimatorListener;
 import com.example.swipetodeletelib.ISwipeToDeleteAdapter;
 import com.example.swipetodeletelib.ISwipeToDeleteHolder;
 import com.example.swipetodeletelib.SwipeToDeleteAdapter;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import test.alexzander.swipetodelete.R;
@@ -27,24 +23,22 @@ import test.alexzander.swipetodelete.R;
 public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteAdapter<String, User, JavaAdapter.Holder> {
 
     private List<User> users;
-    private Context context;
     private SwipeToDeleteAdapter swipeToDeleteAdapter;
 
-    public JavaAdapter(Context context, List<User> users) {
+    public JavaAdapter(List<User> users) {
         this.users = users;
-        this.context = context;
     }
 
     public List<User> getUsers() {
         return users;
     }
 
-    public void setSwipeToDeleteAdapter(SwipeToDeleteAdapter swipeToDeleteAdapter) {
-        this.swipeToDeleteAdapter = swipeToDeleteAdapter;
-    }
-
     public SwipeToDeleteAdapter getSwipeToDeleteAdapter() {
         return swipeToDeleteAdapter;
+    }
+
+    public void setSwipeToDeleteAdapter(SwipeToDeleteAdapter swipeToDeleteAdapter) {
+        this.swipeToDeleteAdapter = swipeToDeleteAdapter;
     }
 
     @Override
@@ -65,22 +59,10 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
         return users.size();
     }
 
-    @Nullable
-    @Override
-    public AnimatorListener getAnimatorListener() {
-        return null;
-    }
-
-    @Nullable
-    @Override
-    public AnimationUpdateListener getAnimationUpdateListener() {
-        return null;
-    }
-
     @Override
     public int findItemPositionByKey(String key) {
         for (int i = 0; i < users.size(); ++i) {
-            if (users.get(i).getName() == key) {
+            if (users.get(i).getName().equals(key) ) {
                 return i;
             }
         }
@@ -107,8 +89,8 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
     }
 
     @Override
-    public boolean deleteAction(User item) {
-        return false;
+    public void removeItem(String key, User item) {
+        swipeToDeleteAdapter.removeItem(key, item);
     }
 
     @Override
@@ -116,18 +98,15 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
 
     }
 
-    @Override
-    public void onDeleteFailed(User item) {
-
-    }
-
-   public class Holder extends RecyclerView.ViewHolder implements ISwipeToDeleteHolder<String> {
+    public class Holder extends RecyclerView.ViewHolder implements ISwipeToDeleteHolder<String> {
 
         Button userButtonUndo;
         FrameLayout userContainer;
 
         AppCompatTextView userName;
         FrameLayout undoContainer;
+        boolean isPendingDelete;
+        String key;
 
         Holder(View view) {
             super(view);
@@ -137,8 +116,6 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
             userButtonUndo = (Button) view.findViewById(R.id.user_button_undo);
             undoContainer = (FrameLayout) view.findViewById(R.id.user_undo_container);
         }
-
-        boolean isPendingDelete;
 
         @Override
         public boolean isPendingDelete() {
@@ -159,8 +136,6 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
                 return userContainer;
             }
         }
-
-        String key;
 
         @Override
         public String getKey() {
