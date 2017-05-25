@@ -29,8 +29,6 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].id, position)
-        if (holder.key % 2 == 0) holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToBaseKotlinActivity() }
-        else holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToJavaActivity() }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) =
@@ -62,6 +60,8 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
         holder.itemContainer.visibility = View.VISIBLE
         holder.undoData.visibility = View.GONE
         holder.progressBar.visibility = View.GONE
+        if (holder.key % 2 == 0) holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToBaseKotlinActivity() }
+        else holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToJavaActivity() }
     }
 
     override fun onBindPendingItem(holder: MyHolder, key: Int, item: User) {
