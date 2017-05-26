@@ -1,4 +1,4 @@
-package agilie.example.swipetodelete.sample
+package agilie.example.swipe2delete.sample
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

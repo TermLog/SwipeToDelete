@@ -1,4 +1,4 @@
-package agilie.example.swipetodelete
+package agilie.example.swipe2delete
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.widget.LinearLayout.VERTICAL
-import agilie.example.swipetodelete.sample.FullKotlinAdapter
+import agilie.example.swipe2delete.sample.FullKotlinAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import test.alexzander.swipetodelete.R

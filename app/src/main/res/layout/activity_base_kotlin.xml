@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="agilie.example.swipetodelete.BaseKotlinActivity">
+    tools:context="agilie.example.swipe2delete.BaseKotlinActivity">
 
 
     <android.support.design.widget.AppBarLayout
