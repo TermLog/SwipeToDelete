@@ -1,4 +1,4 @@
-package agilie.example.swipe2delete.sample
+package agilie.example.swipe2delete.kotlin
 
 import android.animation.Animator
 import android.animation.ValueAnimator
@@ -13,6 +13,7 @@ import com.agilie.swipe2delete.interfaces.IAnimatorListener
 import com.agilie.swipe2delete.interfaces.ISwipeToDeleteAdapter
 import com.agilie.swipe2delete.interfaces.ISwipeToDeleteHolder
 import agilie.example.swipe2delete.MainActivityNavigation
+import agilie.example.swipe2delete.User
 import kotlinx.android.synthetic.main.activity_main_item.view.*
 import test.alexzander.swipetodelete.R.layout.activity_main_item
 

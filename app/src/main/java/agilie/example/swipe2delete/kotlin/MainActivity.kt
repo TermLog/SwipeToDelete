@@ -1,11 +1,9 @@
-package agilie.example.swipe2delete.ui
+package agilie.example.swipe2delete.kotlin
 
 import agilie.example.swipe2delete.MainActivityNavigation
+import agilie.example.swipe2delete.java.JavaActivity
 import agilie.example.swipe2delete.prepareContactList
-import agilie.example.swipe2delete.sample.FullKotlinAdapter
 import android.content.Intent
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -14,11 +12,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.recycler_view.*
 import test.alexzander.swipetodelete.R.layout.activity_main
 
-class MainActivity : AppCompatActivity(), MainActivityNavigation {
+class MainActivity : android.support.v7.app.AppCompatActivity(), MainActivityNavigation {
 
     var adapter: FullKotlinAdapter? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activity_main)
         setSupportActionBar(toolbar)
@@ -31,7 +29,7 @@ class MainActivity : AppCompatActivity(), MainActivityNavigation {
     }
 
     fun initRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(this, VERTICAL, false)
+       recyclerView.layoutManager = LinearLayoutManager(this, VERTICAL, false)
         adapter = FullKotlinAdapter(prepareContactList(60), this)
         recyclerView.adapter = adapter
 

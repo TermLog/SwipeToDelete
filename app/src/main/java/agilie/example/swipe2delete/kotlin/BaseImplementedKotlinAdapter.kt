@@ -1,9 +1,9 @@
-package agilie.example.swipe2delete.sample
+package agilie.example.swipe2delete.kotlin
 
+import agilie.example.swipe2delete.User
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.agilie.swipe2delete.SwipeToDeleteDelegate
 import com.agilie.swipe2delete.interfaces.ISwipeToDeleteAdapter
 import com.agilie.swipe2delete.interfaces.ISwipeToDeleteHolder
@@ -15,10 +15,10 @@ class BaseImplementedKotlinAdapter(var mutableList: MutableList<User>) :
 
     val swipeToDeleteAdapter = SwipeToDeleteDelegate(items = mutableList, swipeToDeleteAdapter = this)
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) =
-            Holder(LayoutInflater.from(parent?.context).inflate(item_user, parent, false))
+    override fun onCreateViewHolder(parent: android.view.ViewGroup?, viewType: Int) =
+            BaseImplementedKotlinAdapter.Holder(LayoutInflater.from(parent?.context).inflate(item_user, parent, false))
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
+    override fun onBindViewHolder(holder: BaseImplementedKotlinAdapter.Holder, position: Int) {
         swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].name, position)
     }
 
@@ -26,7 +26,7 @@ class BaseImplementedKotlinAdapter(var mutableList: MutableList<User>) :
 
     override fun findItemPositionByKey(key: String) = (0..mutableList.lastIndex).firstOrNull { mutableList[it].name == key } ?: -1
 
-    override fun onBindCommonItem(holder: Holder, key: String, item: User) {
+    override fun onBindCommonItem(holder: BaseImplementedKotlinAdapter.Holder, key: String, item: User) {
         holder.userContainer.visibility = View.VISIBLE
         holder.userName.text = item.name
     }

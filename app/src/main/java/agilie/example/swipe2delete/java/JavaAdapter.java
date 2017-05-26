@@ -1,4 +1,4 @@
-package agilie.example.swipe2delete.sample;
+package agilie.example.swipe2delete.java;
 
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import agilie.example.swipe2delete.User;
 import test.alexzander.swipetodelete.R;
 
 

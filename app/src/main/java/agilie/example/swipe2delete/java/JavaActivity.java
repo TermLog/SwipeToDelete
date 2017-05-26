@@ -1,4 +1,4 @@
-package agilie.example.swipe2delete.ui;
+package agilie.example.swipe2delete.java;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +12,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import com.agilie.swipe2delete.SwipeToDeleteDelegate;
 
 import test.alexzander.swipetodelete.R;
-import agilie.example.swipe2delete.sample.JavaAdapter;
 
 import static android.widget.LinearLayout.VERTICAL;
 import static agilie.example.swipe2delete.UtilityKt.prepareContactList;
