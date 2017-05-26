@@ -1,1 +1,1 @@
-include ':app', ':swipetodeletelib'
+include ':app', ':swipe2delete'

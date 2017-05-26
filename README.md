@@ -12,18 +12,18 @@
 * Make instance of **SwipeToDeleteAdapter** in your own adapter 
 
 ```kotlin
-SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteAdapter = this)
+SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteDelegate = this)
 ```
 
 * Call corresponding methods in your overrided methods
 
 ```kotlin
  override fun onBindViewHolder(holder: Holder, position: Int) {
-        swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].name, position)
+        swipeToDeleteDelegate.onBindViewHolder(holder, mutableList[position].name, position)
     }
     
  override fun removeItem(key: String) {
-        swipeToDeleteAdapter.removeItem(key)
+        swipeToDeleteDelegate.removeItem(key)
     }
 ```
 

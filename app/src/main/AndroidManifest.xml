@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="agilie.example.swipetodelete.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             >
@@ -20,9 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".BaseKotlinActivity">
+        <activity android:name="agilie.example.swipetodelete.BaseKotlinActivity">
         </activity>
-        <activity android:name=".JavaActivity">
+        <activity android:name="agilie.example.swipetodelete.JavaActivity">
         </activity>
     </application>
 
