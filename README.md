@@ -1,17 +1,23 @@
 # SwipeToDelete
 
-# FEATURES
-* Interface implementation. You don`t need to extend any class.
-* Support pending deletion with bottom layout.
+# Features
+* Based on interface implementation.
+* Supports pending deletion with bottom layout.
 * Full customization of upper layout and bottom layout.
-* Easy way to handle deletion. All what you need it`s call **removeItem(key: K)**  which should be overriden in your adapter. And invoke **SwipeToDeleteAdapter.removeItem(key: K)** in the end of definition of method.
+* Easy way to handle deletion. All you need is to call **removeItem(key: K)**  which should be overriden in your adapter and to invoke **SwipeToDeleteAdapter.removeItem(key: K)** at the end of method's definition.
 
-# USAGE
+# Usage
 
-* Implement **ISwipeToDeleteAdapter** via your own adapter or anouther class.
-* Make instance of **SwipeToDeleteAdapter** in your own adapter **SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteAdapter = this**
-* Call some corresponding methods in your overrided methods
+* Implement **ISwipeToDeleteAdapter** in your own adapter or another class.
+* Make instance of **SwipeToDeleteAdapter** in your own adapter 
+
+```kotlin
+SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteAdapter = this)
 ```
+
+* Call corresponding methods in your overrided methods
+
+```kotlin
  override fun onBindViewHolder(holder: Holder, position: Int) {
         swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].name, position)
     }
@@ -22,9 +28,10 @@
 ```
 
 
-* Implement **ISwipeToDeleteHolder** via your holder. You need to have container with your regular item layout and if you need bottom container too.
+* Implement **ISwipeToDeleteHolder** in your holder. You need to have container with your regular item layout and if you need bottom container too.
 * In your holder you need to have **var isPendingDelete** as false by default and you need to override **val topContainer**
-```
+
+```kotlin
 override val topContainer: View
             get() =
             if (isPendingDelete) undoContainer
@@ -35,17 +42,19 @@ override var isPendingDelete: Boolean = false
 
 
 * Also you need to make default key in holder by yourself 
-```
+
+```kotlin
 override var key: Int = -1
 ```
 
 
-* If you need bottom container appearence while waiting, You can override **onBindPendingItem(holder: Holder, key: Int, item: User)**
-```
+* If you need bottom container appearence while waiting, simply override **onBindPendingItem(holder: Holder, key: Int, item: User)** method:
+
+```kotlin
 override fun onBindPendingItem(holder: Holder, key: Int, item: User) {
 ...
 }
 ```
 
 
-* For get more information you can refer to the [example](https://github.com/agilie/SwipeToDelete/tree/master/app)
+* To get more information refer our [usage example](https://github.com/agilie/SwipeToDelete/tree/master/app)
