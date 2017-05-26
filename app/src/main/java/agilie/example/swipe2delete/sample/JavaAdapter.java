@@ -43,7 +43,7 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false);
         return new Holder(view);
     }
 

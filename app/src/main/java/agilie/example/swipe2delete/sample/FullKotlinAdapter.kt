@@ -2,7 +2,6 @@ package agilie.example.swipe2delete.sample
 
 import android.animation.Animator
 import android.animation.ValueAnimator
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -14,14 +13,14 @@ import com.agilie.swipe2delete.interfaces.IAnimatorListener
 import com.agilie.swipe2delete.interfaces.ISwipeToDeleteAdapter
 import com.agilie.swipe2delete.interfaces.ISwipeToDeleteHolder
 import agilie.example.swipe2delete.MainActivityNavigation
-import kotlinx.android.synthetic.main.list_item.view.*
-import test.alexzander.swipetodelete.R.layout.list_item
+import kotlinx.android.synthetic.main.activity_main_item.view.*
+import test.alexzander.swipetodelete.R.layout.activity_main_item
 
 
-class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>, val mainActivityNavigation: MainActivityNavigation) :
+class FullKotlinAdapter(val mutableList: MutableList<User>, val mainActivityNavigation: MainActivityNavigation) :
         RecyclerView.Adapter<FullKotlinAdapter.MyHolder>(), ISwipeToDeleteAdapter<Int, User, FullKotlinAdapter.MyHolder>, IAnimationUpdateListener, IAnimatorListener {
 
-    val swipeToDeleteAdapter = SwipeToDeleteDelegate(context = context, items = mutableList, swipeToDeleteAdapter = this)
+    val swipeToDeleteAdapter = SwipeToDeleteDelegate(items = mutableList, swipeToDeleteAdapter = this)
 
     init { swipeToDeleteAdapter.deletingDuration = 6000 }
 
@@ -32,11 +31,9 @@ class FullKotlinAdapter(val context: Context, val mutableList: MutableList<User>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) =
-            MyHolder(LayoutInflater.from(parent?.context).inflate(list_item, parent, false))
+            MyHolder(LayoutInflater.from(parent?.context).inflate(activity_main_item, parent, false))
 
-    override fun removeItem(key: Int) {
-        swipeToDeleteAdapter.removeItem(key)
-    }
+    override fun removeItem(key: Int) { swipeToDeleteAdapter.removeItem(key) }
 
     override fun onAnimationEnd(animation: Animator?, options: ModelOptions<*>) {
         swipeToDeleteAdapter.holders[options.key]?.progressBar?.visibility = View.GONE

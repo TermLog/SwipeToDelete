@@ -1,4 +1,4 @@
-package agilie.example.swipe2delete;
+package agilie.example.swipe2delete.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,10 +26,10 @@ public class JavaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.java_activity);
+        setContentView(R.layout.activity_java);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("JavaActivity");
+        getSupportActionBar().setTitle("Java Activity");
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         initJavaAdapter();
     }
@@ -45,7 +45,7 @@ public class JavaActivity extends AppCompatActivity {
     private void initJavaAdapter() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, VERTICAL, false));
         JavaAdapter adapter = new JavaAdapter(prepareContactList(60));
-        adapter.setSwipeToDeleteDelegate(new SwipeToDeleteDelegate(adapter.getUsers(), this, adapter));
+        adapter.setSwipeToDeleteDelegate(new SwipeToDeleteDelegate(adapter.getUsers(), adapter));
 
         recyclerView.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, VERTICAL);

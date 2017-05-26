@@ -1,6 +1,5 @@
 package agilie.example.swipe2delete.sample
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,16 +7,16 @@ import android.view.ViewGroup
 import com.agilie.swipe2delete.SwipeToDeleteDelegate
 import com.agilie.swipe2delete.interfaces.ISwipeToDeleteAdapter
 import com.agilie.swipe2delete.interfaces.ISwipeToDeleteHolder
-import kotlinx.android.synthetic.main.user_item.view.*
-import test.alexzander.swipetodelete.R.layout.user_item
+import kotlinx.android.synthetic.main.item_user.view.*
+import test.alexzander.swipetodelete.R.layout.item_user
 
-class BaseImplementedKotlinAdapter(context: Context, var mutableList: MutableList<User>) :
+class BaseImplementedKotlinAdapter(var mutableList: MutableList<User>) :
         RecyclerView.Adapter<BaseImplementedKotlinAdapter.Holder>(), ISwipeToDeleteAdapter<String, User, BaseImplementedKotlinAdapter.Holder> {
 
-    val swipeToDeleteAdapter = SwipeToDeleteDelegate(context = context, items = mutableList, swipeToDeleteAdapter = this)
+    val swipeToDeleteAdapter = SwipeToDeleteDelegate(items = mutableList, swipeToDeleteAdapter = this)
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) =
-            Holder(LayoutInflater.from(parent?.context).inflate(user_item, parent, false))
+            Holder(LayoutInflater.from(parent?.context).inflate(item_user, parent, false))
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].name, position)
@@ -31,6 +30,7 @@ class BaseImplementedKotlinAdapter(context: Context, var mutableList: MutableLis
         holder.userContainer.visibility = View.VISIBLE
         holder.userName.text = item.name
     }
+
 
     override fun removeItem(key: String) {
         swipeToDeleteAdapter.removeItem(key)

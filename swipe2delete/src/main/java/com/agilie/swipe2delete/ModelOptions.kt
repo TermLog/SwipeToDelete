@@ -19,7 +19,6 @@ class ModelOptions<K>(var key: K, var deletingDuration: Long) {
     }
 
     companion object {
-
         val LEFT = -1
         val RIGHT = 1
     }
