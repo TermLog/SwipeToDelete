@@ -66,10 +66,8 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
         swipeToDeleteAdapter.notifyItemChanged(position)
         clearAnimator(animatorsMap[key])
     }
-    fun onBindCommonContact(holder: H, key: K, item: V, position: Int) {
+    fun onBindCommonContact(holder: H, key: K, item: V, position: Int) =
         swipeToDeleteAdapter.onBindCommonItem(holder, key, item, position)
-
-    }
 
     fun onBindPendingContact(holder: H, key: K, item: V, IAnimatorListener: IAnimatorListener? = null, IAnimationUpdateListener: IAnimationUpdateListener? = null, position: Int) {
         swipeToDeleteAdapter.onBindPendingItem(holder, key, item, position)
@@ -86,9 +84,7 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
         animator?.start()
     }
 
-    fun removeItemByKey(key: K) {
-        swipeToDeleteAdapter.removeItem(key)
-    }
+    fun removeItemByKey(key: K) = swipeToDeleteAdapter.removeItem(key)
 
     fun removeItem(key: K){
         val position = swipeToDeleteAdapter.findItemPositionByKey(key)

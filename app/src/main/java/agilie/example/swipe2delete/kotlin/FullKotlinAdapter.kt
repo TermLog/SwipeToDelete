@@ -27,9 +27,8 @@ class FullKotlinAdapter(val mutableList: MutableList<User>, val mainActivityNavi
 
     override fun getItemCount() = mutableList.size
 
-    override fun onBindViewHolder(holder: MyHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyHolder, position: Int) =
         swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].id, position)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) =
             MyHolder(LayoutInflater.from(parent?.context).inflate(activity_main_item, parent, false))
@@ -73,6 +72,8 @@ class FullKotlinAdapter(val mutableList: MutableList<User>, val mainActivityNavi
         holder.progressBar.visibility = View.VISIBLE
         holder.undoButton.setOnClickListener { swipeToDeleteAdapter.onUndo(key) }
     }
+
+
 
     inner class MyHolder(view: View) : RecyclerView.ViewHolder(view), ISwipeToDeleteHolder<Int> {
 

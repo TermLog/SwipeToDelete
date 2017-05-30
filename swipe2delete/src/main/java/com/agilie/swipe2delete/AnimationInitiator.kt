@@ -2,6 +2,7 @@ package com.agilie.swipe2delete
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.support.v7.widget.RecyclerView
 import com.agilie.swipe2delete.interfaces.IAnimationUpdateListener
 import com.agilie.swipe2delete.interfaces.IAnimatorListener
 

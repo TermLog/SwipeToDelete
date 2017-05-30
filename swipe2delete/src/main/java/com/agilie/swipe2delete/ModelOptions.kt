@@ -12,11 +12,10 @@ class ModelOptions<K>(var key: K, var deletingDuration: Long) {
     var direction: Int? = 0
     var posX = 0f
 
-    internal fun setDirection(swipeDir: Int) {
-        if (ItemTouchHelper.LEFT == swipeDir || ItemTouchHelper.START == swipeDir) direction = LEFT
-        else direction = RIGHT
+    internal fun setDirection(swipeDir: Int) =
+            if (ItemTouchHelper.LEFT == swipeDir || ItemTouchHelper.START == swipeDir) direction = LEFT
+            else direction = RIGHT
 
-    }
 
     companion object {
         val LEFT = -1
