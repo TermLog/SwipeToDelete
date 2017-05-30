@@ -22,11 +22,6 @@ class BaseKotlinActivity : AppCompatActivity() {
         initRecyclerView()
     }
 
-    override fun onResume() {
-        super.onResume()
-        adapter?.notifyDataSetChanged()
-    }
-
     fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         adapter = BaseImplementedKotlinAdapter(prepareContactList(60))

@@ -40,8 +40,8 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
                 holders[key] = holder
                 holder.isPendingDelete = modelOptions[key]!!.isPendingDelete
 
-                if (modelOptions[key]!!.isPendingDelete) onBindPendingContact(holder, key, item, animatorListener, animationUpdateListener)
-                else onBindCommonContact(holder, key, item)
+                if (modelOptions[key]!!.isPendingDelete) onBindPendingContact(holder, key, item, animatorListener, animationUpdateListener, position)
+                else onBindCommonContact(holder, key, item, position)
             }
         } catch (exc: IndexOutOfBoundsException) {
             exc.printStackTrace()
@@ -66,13 +66,13 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
         swipeToDeleteAdapter.notifyItemChanged(position)
         clearAnimator(animatorsMap[key])
     }
-    fun onBindCommonContact(holder: H, key: K, item: V) {
-        swipeToDeleteAdapter.onBindCommonItem(holder, key, item)
+    fun onBindCommonContact(holder: H, key: K, item: V, position: Int) {
+        swipeToDeleteAdapter.onBindCommonItem(holder, key, item, position)
 
     }
 
-    fun onBindPendingContact(holder: H, key: K, item: V, IAnimatorListener: IAnimatorListener? = null, IAnimationUpdateListener: IAnimationUpdateListener? = null) {
-        swipeToDeleteAdapter.onBindPendingItem(holder, key, item)
+    fun onBindPendingContact(holder: H, key: K, item: V, IAnimatorListener: IAnimatorListener? = null, IAnimationUpdateListener: IAnimationUpdateListener? = null, position: Int) {
+        swipeToDeleteAdapter.onBindPendingItem(holder, key, item, position)
         pendingRemoveActions[key] ?: pendingRemoveActions.put(key, Runnable { removeItemByKey(key) })
         handler.postDelayed(pendingRemoveActions[key], modelOptions[key]!!.pendingDuration)
         val animator: ValueAnimator?

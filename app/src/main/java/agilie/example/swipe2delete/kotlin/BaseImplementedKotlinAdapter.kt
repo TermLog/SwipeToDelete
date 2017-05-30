@@ -26,7 +26,7 @@ class BaseImplementedKotlinAdapter(var mutableList: MutableList<User>) :
 
     override fun findItemPositionByKey(key: String) = (0..mutableList.lastIndex).firstOrNull { mutableList[it].name == key } ?: -1
 
-    override fun onBindCommonItem(holder: BaseImplementedKotlinAdapter.Holder, key: String, item: User) {
+    override fun onBindCommonItem(holder: BaseImplementedKotlinAdapter.Holder, key: String, item: User, position: Int) {
         holder.userContainer.visibility = View.VISIBLE
         holder.userName.text = item.name
     }

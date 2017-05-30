@@ -23,14 +23,12 @@ class MainActivity : android.support.v7.app.AppCompatActivity(), MainActivityNav
         initRecyclerView()
     }
 
-    override fun onResume() {
-        super.onResume()
-        adapter?.notifyDataSetChanged()
-    }
-
     fun initRecyclerView() {
-       recyclerView.layoutManager = LinearLayoutManager(this, VERTICAL, false)
-        adapter = FullKotlinAdapter(prepareContactList(60), this)
+        if (RecViewObjects.mainAdapter == null) {
+            adapter = FullKotlinAdapter(prepareContactList(60), this)
+            RecViewObjects.mainAdapter = adapter
+        } else { adapter = RecViewObjects.mainAdapter }
+        recyclerView.layoutManager = LinearLayoutManager(this, VERTICAL, false)
         recyclerView.adapter = adapter
 
         val dividerItemDecoration = DividerItemDecoration(this, VERTICAL)

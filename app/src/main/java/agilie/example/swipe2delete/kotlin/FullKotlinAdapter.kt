@@ -52,18 +52,22 @@ class FullKotlinAdapter(val mutableList: MutableList<User>, val mainActivityNavi
 
     override fun findItemPositionByKey(key: Int) = (0..mutableList.lastIndex).firstOrNull { mutableList[it].id == key } ?: -1
 
-    override fun onBindCommonItem(holder: MyHolder, key: Int, item: User) {
-        holder.name.text = item.name
+    override fun onBindCommonItem(holder: MyHolder, key: Int, item: User, position: Int) {
+        if (position % 2 == 0) {
+            holder.name.text = "${item.name} Base implemented Kotlin Activity"
+            holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToBaseKotlinActivity() }
+        } else {
+            holder.name.text = "${item.name} Java Activity"
+            holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToJavaActivity() }
+        }
         holder.id.text = item.id.toString()
         holder.itemContainer.visibility = View.VISIBLE
         holder.undoData.visibility = View.GONE
         holder.progressBar.visibility = View.GONE
-        if (holder.key % 2 == 0) holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToBaseKotlinActivity() }
-        else holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToJavaActivity() }
     }
 
-    override fun onBindPendingItem(holder: MyHolder, key: Int, item: User) {
-        holder.deletedName.text = "You have just deleted {$item.name}"
+    override fun onBindPendingItem(holder: MyHolder, key: Int, item: User, position: Int) {
+        holder.deletedName.text = "You have just deleted ${item.name}"
         holder.itemContainer.visibility = View.GONE
         holder.undoData.visibility = View.VISIBLE
         holder.progressBar.visibility = View.VISIBLE
