@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="agilie.example.swipe2delete.kotlin.MainActivity">
+    tools:context="agilie.example.swipe2delete.kotlin.BaseKotlinActivity">
+
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -22,5 +23,6 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/recycler_view"/>
+
 
 </android.support.design.widget.CoordinatorLayout>
