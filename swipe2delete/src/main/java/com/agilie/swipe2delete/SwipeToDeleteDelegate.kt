@@ -48,6 +48,10 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
         }
     }
 
+    override fun clearView(viewHolder: ISwipeToDeleteHolder<K>) {
+        modelOptions[viewHolder.key]?.isViewActive = true
+    }
+
     override fun onItemSwiped(viewHolder: ISwipeToDeleteHolder<K>, swipeDir: Int) {
         val key = viewHolder.key
         val modelOption = modelOptions[key]
@@ -60,14 +64,19 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
     }
 
     override fun onUndo(key: K) {
-        val position = swipeToDeleteAdapter.findItemPositionByKey(key)
-        handler.removeCallbacks(pendingRemoveActions[key])
-        modelOptions[key]?.isPendingDelete = false
-        swipeToDeleteAdapter.notifyItemChanged(position)
-        clearAnimator(animatorsMap[key])
+        val modelOption = modelOptions[key]
+        if (modelOption?.isViewActive ?: false) {
+            val position = swipeToDeleteAdapter.findItemPositionByKey(key)
+            handler.removeCallbacks(pendingRemoveActions[key])
+            modelOption?.isPendingDelete = false
+            swipeToDeleteAdapter.notifyItemChanged(position)
+            clearAnimator(animatorsMap[key])
+            modelOption?.isViewActive = false
+        }
     }
+
     fun onBindCommonContact(holder: H, key: K, item: V, position: Int) =
-        swipeToDeleteAdapter.onBindCommonItem(holder, key, item, position)
+            swipeToDeleteAdapter.onBindCommonItem(holder, key, item, position)
 
     fun onBindPendingContact(holder: H, key: K, item: V, IAnimatorListener: IAnimatorListener? = null, IAnimationUpdateListener: IAnimationUpdateListener? = null, position: Int) {
         swipeToDeleteAdapter.onBindPendingItem(holder, key, item, position)
@@ -86,7 +95,7 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
 
     fun removeItemByKey(key: K) = swipeToDeleteAdapter.removeItem(key)
 
-    fun removeItem(key: K){
+    fun removeItem(key: K) {
         val position = swipeToDeleteAdapter.findItemPositionByKey(key)
         removeItemFromList(key, items.removeAt(position), position)
     }

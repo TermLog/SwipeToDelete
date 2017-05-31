@@ -20,8 +20,10 @@ class ContactItemTouchCallback<K>(private val listener: ItemSwipeListener<K>?) :
         listener?.onItemSwiped(viewHolder as ISwipeToDeleteHolder<K>, swipeDir)
     }
 
-    override fun clearView(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder) =
-            ItemTouchHelper.Callback.getDefaultUIUtil().clearView((viewHolder as ISwipeToDeleteHolder<*>).topContainer)
+    override fun clearView(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder) {
+        ItemTouchHelper.Callback.getDefaultUIUtil().clearView((viewHolder as ISwipeToDeleteHolder<K>).topContainer)
+        listener?.clearView(viewHolder)
+    }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         if (viewHolder != null) {
