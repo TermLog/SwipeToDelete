@@ -18,7 +18,6 @@ import static agilie.example.swipe2delete.UtilityKt.prepareContactList;
 
 public class JavaActivity extends AppCompatActivity {
 
-    JavaAdapter javaAdapter;
     RecyclerView recyclerView;
     Toolbar toolbar;
 
@@ -31,14 +30,6 @@ public class JavaActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Java Activity");
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         initJavaAdapter();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (javaAdapter != null) {
-            javaAdapter.notifyDataSetChanged();
-        }
     }
 
     private void initJavaAdapter() {

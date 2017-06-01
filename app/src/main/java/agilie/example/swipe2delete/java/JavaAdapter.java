@@ -71,14 +71,14 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
     }
 
     @Override
-    public void onBindCommonItem(Holder holder, final String key, User item) {
+    public void onBindCommonItem(Holder holder, final String key, User item, int position) {
         holder.userContainer.setVisibility(View.VISIBLE);
         holder.undoContainer.setVisibility(View.GONE);
         holder.userName.setText(item.getName());
     }
 
     @Override
-    public void onBindPendingItem(Holder holder, final String key, User item) {
+    public void onBindPendingItem(Holder holder, final String key, User item, int position) {
         holder.undoContainer.setVisibility(View.VISIBLE);
         holder.userContainer.setVisibility(View.GONE);
         holder.userButtonUndo.setOnClickListener(new View.OnClickListener() {

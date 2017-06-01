@@ -18,23 +18,20 @@ class BaseImplementedKotlinAdapter(var mutableList: MutableList<User>) :
     override fun onCreateViewHolder(parent: android.view.ViewGroup?, viewType: Int) =
             BaseImplementedKotlinAdapter.Holder(LayoutInflater.from(parent?.context).inflate(item_user, parent, false))
 
-    override fun onBindViewHolder(holder: BaseImplementedKotlinAdapter.Holder, position: Int) {
+    override fun onBindViewHolder(holder: BaseImplementedKotlinAdapter.Holder, position: Int) =
         swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].name, position)
-    }
 
     override fun getItemCount() = mutableList.size
 
     override fun findItemPositionByKey(key: String) = (0..mutableList.lastIndex).firstOrNull { mutableList[it].name == key } ?: -1
 
-    override fun onBindCommonItem(holder: BaseImplementedKotlinAdapter.Holder, key: String, item: User) {
+    override fun onBindCommonItem(holder: BaseImplementedKotlinAdapter.Holder, key: String, item: User, position: Int) {
         holder.userContainer.visibility = View.VISIBLE
         holder.userName.text = item.name
     }
 
-
-    override fun removeItem(key: String) {
+    override fun removeItem(key: String) =
         swipeToDeleteAdapter.removeItem(key)
-    }
 
     class Holder(view: View) : RecyclerView.ViewHolder(view), ISwipeToDeleteHolder<String> {
 

@@ -40,12 +40,16 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
                 holders[key] = holder
                 holder.isPendingDelete = modelOptions[key]!!.isPendingDelete
 
-                if (modelOptions[key]!!.isPendingDelete) onBindPendingContact(holder, key, item, animatorListener, animationUpdateListener)
-                else onBindCommonContact(holder, key, item)
+                if (modelOptions[key]!!.isPendingDelete) onBindPendingContact(holder, key, item, animatorListener, animationUpdateListener, position)
+                else onBindCommonContact(holder, key, item, position)
             }
         } catch (exc: IndexOutOfBoundsException) {
             exc.printStackTrace()
         }
+    }
+
+    override fun clearView(viewHolder: ISwipeToDeleteHolder<K>) {
+        modelOptions[viewHolder.key]?.isViewActive = true
     }
 
     override fun onItemSwiped(viewHolder: ISwipeToDeleteHolder<K>, swipeDir: Int) {
@@ -60,19 +64,22 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
     }
 
     override fun onUndo(key: K) {
-        val position = swipeToDeleteAdapter.findItemPositionByKey(key)
-        handler.removeCallbacks(pendingRemoveActions[key])
-        modelOptions[key]?.isPendingDelete = false
-        swipeToDeleteAdapter.notifyItemChanged(position)
-        clearAnimator(animatorsMap[key])
+        val modelOption = modelOptions[key]
+        if (modelOption?.isViewActive ?: false) {
+            val position = swipeToDeleteAdapter.findItemPositionByKey(key)
+            handler.removeCallbacks(pendingRemoveActions[key])
+            modelOption?.isPendingDelete = false
+            swipeToDeleteAdapter.notifyItemChanged(position)
+            clearAnimator(animatorsMap[key])
+            modelOption?.isViewActive = false
+        }
     }
-    fun onBindCommonContact(holder: H, key: K, item: V) {
-        swipeToDeleteAdapter.onBindCommonItem(holder, key, item)
 
-    }
+    fun onBindCommonContact(holder: H, key: K, item: V, position: Int) =
+            swipeToDeleteAdapter.onBindCommonItem(holder, key, item, position)
 
-    fun onBindPendingContact(holder: H, key: K, item: V, IAnimatorListener: IAnimatorListener? = null, IAnimationUpdateListener: IAnimationUpdateListener? = null) {
-        swipeToDeleteAdapter.onBindPendingItem(holder, key, item)
+    fun onBindPendingContact(holder: H, key: K, item: V, IAnimatorListener: IAnimatorListener? = null, IAnimationUpdateListener: IAnimationUpdateListener? = null, position: Int) {
+        swipeToDeleteAdapter.onBindPendingItem(holder, key, item, position)
         pendingRemoveActions[key] ?: pendingRemoveActions.put(key, Runnable { removeItemByKey(key) })
         handler.postDelayed(pendingRemoveActions[key], modelOptions[key]!!.pendingDuration)
         val animator: ValueAnimator?
@@ -86,11 +93,9 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
         animator?.start()
     }
 
-    fun removeItemByKey(key: K) {
-        swipeToDeleteAdapter.removeItem(key)
-    }
+    fun removeItemByKey(key: K) = swipeToDeleteAdapter.removeItem(key)
 
-    fun removeItem(key: K){
+    fun removeItem(key: K) {
         val position = swipeToDeleteAdapter.findItemPositionByKey(key)
         removeItemFromList(key, items.removeAt(position), position)
     }

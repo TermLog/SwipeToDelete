@@ -2,12 +2,14 @@ package com.agilie.swipe2delete
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.support.v7.widget.RecyclerView
+import android.util.Log
 import com.agilie.swipe2delete.interfaces.IAnimationUpdateListener
 import com.agilie.swipe2delete.interfaces.IAnimatorListener
 
 var rowWidth: Int = 0
 
-fun initAnimator(options: ModelOptions<*>, animatorListener: IAnimatorListener? = null,
+internal fun initAnimator(options: ModelOptions<*>, animatorListener: IAnimatorListener? = null,
                  valUpdateListener: IAnimationUpdateListener? = null, valueAnimator: ValueAnimator? = null): ValueAnimator {
     val animator: ValueAnimator
     val screenWidth = rowWidth
