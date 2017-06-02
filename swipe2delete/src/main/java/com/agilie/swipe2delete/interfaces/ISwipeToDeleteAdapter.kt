@@ -1,7 +1,7 @@
 package com.agilie.swipe2delete.interfaces
 
 
-interface ISwipeToDeleteAdapter<K, in V, in H> {
+interface ISwipeToDeleteAdapter<in K, in V, in H> {
 
     fun notifyItemRemoved(position: Int)
 

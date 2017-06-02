@@ -12,18 +12,17 @@ import com.agilie.swipe2delete.interfaces.IAnimationUpdateListener
 import com.agilie.swipe2delete.interfaces.IAnimatorListener
 import com.agilie.swipe2delete.interfaces.ISwipeToDeleteAdapter
 import com.agilie.swipe2delete.interfaces.ISwipeToDeleteHolder
-import agilie.example.swipe2delete.MainActivityNavigation
 import agilie.example.swipe2delete.User
 import kotlinx.android.synthetic.main.activity_main_item.view.*
 import test.alexzander.swipetodelete.R.layout.activity_main_item
 
 
-class FullKotlinAdapter(val mutableList: MutableList<User>, val mainActivityNavigation: MainActivityNavigation) :
-        RecyclerView.Adapter<FullKotlinAdapter.MyHolder>(), ISwipeToDeleteAdapter<Int, User, FullKotlinAdapter.MyHolder>, IAnimationUpdateListener, IAnimatorListener {
+class UserAdapter(val mutableList: MutableList<User>, var onItemClick: (User) -> Any) :
+        RecyclerView.Adapter<UserAdapter.MyHolder>(), ISwipeToDeleteAdapter<Int, User, UserAdapter.MyHolder>, IAnimationUpdateListener, IAnimatorListener {
 
     val swipeToDeleteAdapter = SwipeToDeleteDelegate(items = mutableList, swipeToDeleteAdapter = this)
 
-    init { swipeToDeleteAdapter.deletingDuration = 6000 }
+    init { swipeToDeleteAdapter.deletingDuration = 3000 }
 
     override fun getItemCount() = mutableList.size
 
@@ -39,7 +38,7 @@ class FullKotlinAdapter(val mutableList: MutableList<User>, val mainActivityNavi
         swipeToDeleteAdapter.holders[options.key]?.progressBar?.visibility = View.GONE
     }
 
-    override fun onAnimationUpdate(animation: ValueAnimator?, options: ModelOptions<*>) {
+    override fun onAnimationUpdated(animation: ValueAnimator?, options: ModelOptions<*>) {
         val posX = animation?.animatedValue as Float
         swipeToDeleteAdapter.holders[options.key]?.progressBar?.x = posX
         options.posX = posX
@@ -52,17 +51,14 @@ class FullKotlinAdapter(val mutableList: MutableList<User>, val mainActivityNavi
     override fun findItemPositionByKey(key: Int) = (0..mutableList.lastIndex).firstOrNull { mutableList[it].id == key } ?: -1
 
     override fun onBindCommonItem(holder: MyHolder, key: Int, item: User, position: Int) {
-        if (position % 2 == 0) {
-            holder.name.text = "${item.name} Base implemented Kotlin Activity"
-            holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToBaseKotlinActivity() }
-        } else {
-            holder.name.text = "${item.name} Java Activity"
-            holder.itemContainer.setOnClickListener { mainActivityNavigation.navigateToJavaActivity() }
-        }
+        holder.name.text = item.name
         holder.id.text = item.id.toString()
+
         holder.itemContainer.visibility = View.VISIBLE
         holder.undoData.visibility = View.GONE
         holder.progressBar.visibility = View.GONE
+
+        holder.itemContainer.setOnClickListener { onItemClick.invoke(item) }
     }
 
     override fun onBindPendingItem(holder: MyHolder, key: Int, item: User, position: Int) {
@@ -72,8 +68,6 @@ class FullKotlinAdapter(val mutableList: MutableList<User>, val mainActivityNavi
         holder.progressBar.visibility = View.VISIBLE
         holder.undoButton.setOnClickListener { swipeToDeleteAdapter.onUndo(key) }
     }
-
-
 
     inner class MyHolder(view: View) : RecyclerView.ViewHolder(view), ISwipeToDeleteHolder<Int> {
 
@@ -88,9 +82,9 @@ class FullKotlinAdapter(val mutableList: MutableList<User>, val mainActivityNavi
 
         override val topContainer: View
             get() =
-            if (isPendingDelete) undoContainer
+            if (pendingDelete) undoContainer
             else itemContainer
         override var key: Int = -1
-        override var isPendingDelete: Boolean = false
+        override var pendingDelete: Boolean = false
     }
 }

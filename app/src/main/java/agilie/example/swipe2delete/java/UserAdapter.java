@@ -20,12 +20,12 @@ import agilie.example.swipe2delete.User;
 import test.alexzander.swipetodelete.R;
 
 
-public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteAdapter<String, User, JavaAdapter.Holder> {
+public class UserAdapter extends RecyclerView.Adapter implements ISwipeToDeleteAdapter<String, User, UserAdapter.Holder> {
 
     private List<User> users;
     private SwipeToDeleteDelegate swipeToDeleteDelegate;
 
-    public JavaAdapter(List<User> users) {
+    public UserAdapter(List<User> users) {
         this.users = users;
     }
 
@@ -107,7 +107,7 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
         AppCompatTextView userName;
         FrameLayout undoContainer;
 
-        boolean isPendingDelete;
+        boolean pendingDelete;
         String key;
 
         Holder(View view) {
@@ -120,19 +120,19 @@ public class JavaAdapter extends RecyclerView.Adapter implements ISwipeToDeleteA
         }
 
         @Override
-        public boolean isPendingDelete() {
-            return isPendingDelete;
+        public boolean getPendingDelete() {
+            return pendingDelete;
         }
 
         @Override
         public void setPendingDelete(boolean b) {
-            isPendingDelete = b;
+            pendingDelete = b;
         }
 
         @NotNull
         @Override
         public View getTopContainer() {
-            if (isPendingDelete) {
+            if (pendingDelete) {
                 return undoContainer;
             } else {
                 return userContainer;

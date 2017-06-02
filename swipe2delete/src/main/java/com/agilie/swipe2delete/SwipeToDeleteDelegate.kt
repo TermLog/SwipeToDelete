@@ -8,16 +8,21 @@ import com.agilie.swipe2delete.interfaces.*
 import java.lang.IndexOutOfBoundsException
 
 class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val items: MutableList<V>, val swipeToDeleteAdapter: ISwipeToDeleteAdapter<K, V, H>) : ItemSwipeListener<K>, IUndoClickListener<K> {
+
     var deletingDuration: Long? = null
-    val itemTouchCallBack = ContactItemTouchCallback(this)
     val handler = Handler(Looper.getMainLooper())
+
+    val itemTouchCallBack = ContactItemTouchCallback(this)
+
     val pendingRemoveActions = HashMap<K, Runnable?>(1)
-    val animatorsMap = HashMap<K, ValueAnimator>(1)
-    val modelOptions = HashMap<K, ModelOptions<K>>()
     val holders = HashMap<K, H>()
+    val animatorsMap = HashMap<K, ValueAnimator>(1)
+    val modelOptionsMap = HashMap<K, ModelOptions<K>>()
+
     var animationUpdateListener: IAnimationUpdateListener? = null
     var animatorListener: IAnimatorListener? = null
-    var isKnownWidth = false
+
+    var knownWidth = false
 
     init {
         if (swipeToDeleteAdapter is IAnimatorListener) animatorListener = swipeToDeleteAdapter
@@ -26,21 +31,21 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
 
     fun onBindViewHolder(holder: H, key: K, position: Int) {
         try {
-            if (!isKnownWidth) {
+            if (!knownWidth) {
                 getRowWidth(holder.topContainer)
-                isKnownWidth = true
+                knownWidth = true
             }
             holder.key = key
-            if (!modelOptions.containsKey(key)) modelOptions.put(key, ModelOptions(key, deletingDuration ?: 0))
+            if (!modelOptionsMap.containsKey(key)) modelOptionsMap.put(key, ModelOptions(key, deletingDuration ?: 0))
             val item = items[position]
             if (item == null) {
                 items.removeAt(position)
                 swipeToDeleteAdapter.notifyItemRemoved(position)
             } else {
                 holders[key] = holder
-                holder.isPendingDelete = modelOptions[key]!!.isPendingDelete
+                holder.pendingDelete = modelOptionsMap[key]!!.pendingDelete
 
-                if (modelOptions[key]!!.isPendingDelete) onBindPendingContact(holder, key, item, animatorListener, animationUpdateListener, position)
+                if (modelOptionsMap[key]!!.pendingDelete) onBindPendingContact(holder, key, item, animatorListener, animationUpdateListener, position)
                 else onBindCommonContact(holder, key, item, position)
             }
         } catch (exc: IndexOutOfBoundsException) {
@@ -49,29 +54,29 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
     }
 
     override fun clearView(viewHolder: ISwipeToDeleteHolder<K>) {
-        modelOptions[viewHolder.key]?.isViewActive = true
+        modelOptionsMap[viewHolder.key]?.viewActive = true
     }
 
     override fun onItemSwiped(viewHolder: ISwipeToDeleteHolder<K>, swipeDir: Int) {
         val key = viewHolder.key
-        val modelOption = modelOptions[key]
-        if (modelOption?.isPendingDelete ?: false) removeItemByKey(key)
+        val modelOption = modelOptionsMap[key]
+        if (modelOption?.pendingDelete ?: false) removeItemByKey(key)
         else {
-            modelOption?.isPendingDelete = true
+            modelOption?.pendingDelete = true
             modelOption?.setDirection(swipeDir)
             swipeToDeleteAdapter.notifyItemChanged(swipeToDeleteAdapter.findItemPositionByKey(key))
         }
     }
 
     override fun onUndo(key: K) {
-        val modelOption = modelOptions[key]
-        if (modelOption?.isViewActive ?: false) {
+        val modelOption = modelOptionsMap[key]
+        if (modelOption?.viewActive ?: false) {
             val position = swipeToDeleteAdapter.findItemPositionByKey(key)
             handler.removeCallbacks(pendingRemoveActions[key])
-            modelOption?.isPendingDelete = false
+            modelOption?.pendingDelete = false
             swipeToDeleteAdapter.notifyItemChanged(position)
             clearAnimator(animatorsMap[key])
-            modelOption?.isViewActive = false
+            modelOption?.viewActive = false
         }
     }
 
@@ -81,13 +86,13 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
     fun onBindPendingContact(holder: H, key: K, item: V, IAnimatorListener: IAnimatorListener? = null, IAnimationUpdateListener: IAnimationUpdateListener? = null, position: Int) {
         swipeToDeleteAdapter.onBindPendingItem(holder, key, item, position)
         pendingRemoveActions[key] ?: pendingRemoveActions.put(key, Runnable { removeItemByKey(key) })
-        handler.postDelayed(pendingRemoveActions[key], modelOptions[key]!!.pendingDuration)
+        handler.postDelayed(pendingRemoveActions[key], modelOptionsMap[key]!!.pendingDuration)
         val animator: ValueAnimator?
         if (animatorsMap[key] != null) {
             animator = animatorsMap[key]
-            initAnimator(modelOptions[key]!!, IAnimatorListener, IAnimationUpdateListener, animator)
+            initAnimator(modelOptionsMap[key]!!, IAnimatorListener, IAnimationUpdateListener, animator)
         } else {
-            animator = initAnimator(modelOptions[key]!!, IAnimatorListener, IAnimationUpdateListener)
+            animator = initAnimator(modelOptionsMap[key]!!, IAnimatorListener, IAnimationUpdateListener)
             animatorsMap.put(key, animator)
         }
         animator?.start()
@@ -105,16 +110,16 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
         pendingRemoveActions.remove(key)
         items.remove(item)
         holders.remove(key)
-        modelOptions.remove(key)
+        modelOptionsMap.remove(key)
         swipeToDeleteAdapter.notifyItemRemoved(position)
-        clearOptions(modelOptions[key])
+        clearOptions(modelOptionsMap[key])
         clearAnimator(animatorsMap.remove(key))
         swipeToDeleteAdapter.onItemDeleted(item)
     }
 
     fun clearAnimation(key: K, view: View?) {
         clearAnimator(animatorsMap[key])
-        clearOptions(modelOptions[key])
+        clearOptions(modelOptionsMap[key])
         clearView(view)
     }
 }

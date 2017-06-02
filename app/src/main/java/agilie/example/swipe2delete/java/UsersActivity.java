@@ -16,7 +16,7 @@ import test.alexzander.swipetodelete.R;
 import static android.widget.LinearLayout.VERTICAL;
 import static agilie.example.swipe2delete.UtilityKt.prepareContactList;
 
-public class JavaActivity extends AppCompatActivity {
+public class UsersActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     Toolbar toolbar;
@@ -34,7 +34,7 @@ public class JavaActivity extends AppCompatActivity {
 
     private void initJavaAdapter() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, VERTICAL, false));
-        JavaAdapter adapter = new JavaAdapter(prepareContactList(60));
+        UserAdapter adapter = new UserAdapter(prepareContactList(60));
         adapter.setSwipeToDeleteDelegate(new SwipeToDeleteDelegate(adapter.getUsers(), adapter));
 
         recyclerView.setAdapter(adapter);

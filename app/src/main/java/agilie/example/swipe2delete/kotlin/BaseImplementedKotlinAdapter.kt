@@ -38,7 +38,7 @@ class BaseImplementedKotlinAdapter(var mutableList: MutableList<User>) :
         var userContainer = view.user_container
         var userName = view.user_name
 
-        override var isPendingDelete: Boolean = false
+        override var pendingDelete: Boolean = false
 
         override val topContainer = userContainer!!
 

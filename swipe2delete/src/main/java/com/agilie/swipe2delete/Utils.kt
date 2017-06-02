@@ -4,8 +4,8 @@ import android.animation.ValueAnimator
 import android.view.View
 
 internal fun clearOptions(options: ModelOptions<*>?) {
-    options?.isPendingDelete = false
-    options?.isRunningAnimation = false
+    options?.pendingDelete = false
+    options?.runningAnimation = false
     options?.posX = 0f
 }
 

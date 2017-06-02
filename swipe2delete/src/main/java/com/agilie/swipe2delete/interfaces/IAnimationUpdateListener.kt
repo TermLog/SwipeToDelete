@@ -4,5 +4,5 @@ import com.agilie.swipe2delete.ModelOptions
 
 
 interface IAnimationUpdateListener {
-    fun onAnimationUpdate(animation: android.animation.ValueAnimator?, options: ModelOptions<*>)
+    fun onAnimationUpdated(animation: android.animation.ValueAnimator?, options: ModelOptions<*>)
 }

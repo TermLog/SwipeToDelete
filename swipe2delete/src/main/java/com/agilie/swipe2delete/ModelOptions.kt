@@ -7,16 +7,16 @@ class ModelOptions<K>(var key: K, var deletingDuration: Long) {
         get() =
         if ((deletingDuration - 150) <= 0) 150
         else deletingDuration - 150
-    var isPendingDelete = false
-    var isRunningAnimation = false
     var direction: Int? = 0
     var posX = 0f
-    var isViewActive = false
+
+    var pendingDelete = false
+    var runningAnimation = false
+    var viewActive = false
 
     internal fun setDirection(swipeDir: Int) =
             if (ItemTouchHelper.LEFT == swipeDir || ItemTouchHelper.START == swipeDir) direction = LEFT
             else direction = RIGHT
-
 
     companion object {
         val LEFT = -1

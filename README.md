@@ -29,15 +29,15 @@ SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteDelega
 
 
 * Implement **ISwipeToDeleteHolder** in your holder. You need to have container with your regular item layout and if you need bottom container too.
-* In your holder you need to have **var isPendingDelete** as false by default and you need to override **val topContainer**
+* In your holder you need to have **var pendingDelete** as false by default and you need to override **val topContainer**
 
 ```kotlin
 override val topContainer: View
             get() =
-            if (isPendingDelete) undoContainer
+            if (pendingDelete) undoContainer
             else itemContainer
 
-override var isPendingDelete: Boolean = false
+override var pendingDelete: Boolean = false
 ```
 
 

@@ -2,8 +2,6 @@ package com.agilie.swipe2delete
 
 import android.animation.Animator
 import android.animation.ValueAnimator
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import com.agilie.swipe2delete.interfaces.IAnimationUpdateListener
 import com.agilie.swipe2delete.interfaces.IAnimatorListener
 
@@ -22,15 +20,15 @@ internal fun initAnimator(options: ModelOptions<*>, animatorListener: IAnimatorL
         animator.setFloatValues(options.posX, screenWidth * options.direction!!.toFloat())
     }
 
-    animator.addUpdateListener { animation -> valUpdateListener?.onAnimationUpdate(animation, options) }
+    animator.addUpdateListener { animation -> valUpdateListener?.onAnimationUpdated(animation, options) }
     animator.addListener((object : Animator.AnimatorListener {
         override fun onAnimationStart(animation: Animator) {
-            options.isRunningAnimation = true
+            options.runningAnimation = true
             animatorListener?.onAnimationStart(animation, options)
         }
 
         override fun onAnimationEnd(animation: Animator) {
-            options.isRunningAnimation = false
+            options.runningAnimation = false
             animatorListener?.onAnimationEnd(animation, options)
         }
 

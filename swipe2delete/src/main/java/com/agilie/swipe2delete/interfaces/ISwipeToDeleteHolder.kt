@@ -4,10 +4,10 @@ import android.view.View
 
 interface ISwipeToDeleteHolder<K> {
 
-    var isPendingDelete: Boolean
+    var pendingDelete: Boolean
     /**
      *  get() =
-     *  if (isPendingDelete!!) undoContainer
+     *  if (pendingDelete!!) undoContainer
      *  else itemContainer
      *
      */
