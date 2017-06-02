@@ -21,7 +21,7 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
 
     var animationUpdateListener: IAnimationUpdateListener? = null
     var animatorListener: IAnimatorListener? = null
-
+    var pending: Boolean = false
     var knownWidth = false
 
     init {
@@ -59,12 +59,16 @@ class SwipeToDeleteDelegate<K, in V, H : ISwipeToDeleteHolder<K>>(private val it
 
     override fun onItemSwiped(viewHolder: ISwipeToDeleteHolder<K>, swipeDir: Int) {
         val key = viewHolder.key
-        val modelOption = modelOptionsMap[key]
-        if (modelOption?.pendingDelete ?: false) removeItemByKey(key)
-        else {
-            modelOption?.pendingDelete = true
-            modelOption?.setDirection(swipeDir)
-            swipeToDeleteAdapter.notifyItemChanged(swipeToDeleteAdapter.findItemPositionByKey(key))
+        if (pending) {
+            val modelOption = modelOptionsMap[key]
+            if (modelOption?.pendingDelete ?: false) removeItemByKey(key)
+            else {
+                modelOption?.pendingDelete = true
+                modelOption?.setDirection(swipeDir)
+                swipeToDeleteAdapter.notifyItemChanged(swipeToDeleteAdapter.findItemPositionByKey(key))
+            }
+        } else {
+            removeItem(key)
         }
     }
 

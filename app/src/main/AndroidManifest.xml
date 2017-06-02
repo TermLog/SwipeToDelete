@@ -22,8 +22,6 @@
         </activity>
         <activity android:name="agilie.example.swipe2delete.kotlin.BaseKotlinActivity">
         </activity>
-        <activity android:name="agilie.example.swipe2delete.java.UsersActivity">
-        </activity>
     </application>
 
 </manifest>

@@ -3,8 +3,25 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="test.alexzander.swipetodelete.agilie.alexzander.swipetodelete.MainActivity">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:id="@+id/action_undo_animation"
+        android:orderInCategory="1"
+        android:title="Undo progress bar animation"
+        android:checkable="true"
+        android:checked="true"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_bottom_container"
+        android:orderInCategory="2"
+        android:checkable="true"
+        android:checked="true"
+        android:title="Bottom container"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_pending"
+        android:orderInCategory="2"
+        android:checkable="true"
+        android:checked="true"
+        android:title="Action pending"
+        app:showAsAction="never"/>
+
 </menu>
