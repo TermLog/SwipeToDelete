@@ -34,6 +34,7 @@ bintray {
     pkg {
         repo = 'maven'
         name = 'Swipe2Delete' //YOUR PACKAGE NAME
+        userOrg = 'agilie'
         desc = 'Library to achieve "swipe to delete" animation on each view in recyclerview' // YOUR LIBRARY DESCRIPTION
         websiteUrl = 'https://github.com/agilie/SwipeToDelete' // YOUR SITE
         vcsUrl = 'https://github.com/agilie/SwipeToDelete' // YOUR GIT REPO

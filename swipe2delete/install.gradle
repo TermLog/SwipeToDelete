@@ -5,11 +5,11 @@ install {
     repositories.mavenInstaller {
         pom {
             project {
-                packaging 'swipe2delete'
+                packaging 'Swipe2delete'
                 groupId 'com.agilie' // CREATE A GROUP ID FOR YOUR LIBRARY
                 artifactId 'swipe2delete' // THE NAME OF YOUR MODULE
 
-                name 'Swipe2Deletet' // YOUR LIBRARY NAME
+                name 'swipe2Deletet' // YOUR LIBRARY NAME
                 description 'Extended EditText which allows to move, rotate and resize text at the same time' // YOUR LIBRARY DESCRIPTION
                 url 'https://github.com/agilie/SwipeToDelete' // YOUR SITE
 
