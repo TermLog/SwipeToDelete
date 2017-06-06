@@ -6,7 +6,6 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
 
-
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 25
@@ -37,3 +36,5 @@ dependencies {
 repositories {
     mavenCentral()
 }
+apply from: 'bintray.gradle'
+apply from: 'install.gradle'

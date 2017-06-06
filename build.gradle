@@ -7,6 +7,8 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -18,8 +20,15 @@ allprojects {
     repositories {
         jcenter()
     }
+    tasks.withType(Javadoc) {
+        // Ignores errors from mavenAndroidJavadocs task
+        //options.addStringOption('Xdoclint:none', '-quiet')
+        //options.addStringOption('encoding', 'UTF-8')
+        excludes = ['**/*.kt']
+    }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
