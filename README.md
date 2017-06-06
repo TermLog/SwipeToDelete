@@ -1,18 +1,19 @@
 # SwipeToDelete
+<img src="https://cloud.githubusercontent.com/assets/1777595/26835596/4de3ba4a-4ae1-11e7-8798-90c314c6be1b.gif" width="32%"> 
 
 # Features
 * Based on interface implementation.
 * Supports pending deletion with bottom layout.
 * Full customization of upper layout and bottom layout.
-* Easy way to handle deletion. All you need is to call **removeItem(key: K)**  which should be overriden in your adapter and to invoke **SwipeToDeleteAdapter.removeItem(key: K)** at the end of method's definition.
+* Easy way to handle deletion. All you need is to call **removeItem(key: K)**  which should be overriden in your adapter and to invoke **swipeToDeleteDelegate.removeItem(key: K)** at the end of method's definition.
 
 # Usage
 
 * Implement **ISwipeToDeleteAdapter** in your own adapter or another class.
-* Make instance of **SwipeToDeleteAdapter** in your own adapter 
+* Make instance of **SwipeToDeleteDelegate** in your own adapter 
 
 ```kotlin
-SwipeToDeleteAdapter(context = context, items = mutableList, swipeToDeleteDelegate = this)
+SwipeToDeleteDelegate(context = context, items = mutableList, swipeToDeleteDelegate = this)
 ```
 
 * Call corresponding methods in your overrided methods
@@ -55,6 +56,21 @@ override fun onBindPendingItem(holder: Holder, key: Int, item: User) {
 ...
 }
 ```
+* Also you can implement **IAnimationUpdateListener** and **IAnimatorListener** to override methods to achieve animation along the axis x with duration which equally deleting duration
 
+```
+UserAdapter(...) : ... , IAnimationUpdateListener {
+...
+  fun onAnimationUpdated(animation: android.animation.ValueAnimator?, options: ModelOptions<*>) {}
+  
+  fun onAnimationEnd(animation: Animator?, options: ModelOptions<*>) {}
+  
+  fun onAnimationCancel(animation: Animator?, options: ModelOptions<*>) {}
+
+  fun onAnimationStart(animation: Animator?, options: ModelOptions<*>) {}
+  
+  fun onAnimationRepeat(animation: Animator, options: ModelOptions<*>) {}
+}
+```
 
 * To get more information refer our [usage example](https://github.com/agilie/SwipeToDelete/tree/master/app)
