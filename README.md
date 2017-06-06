@@ -1,4 +1,5 @@
 # SwipeToDelete
+<img src="https://cloud.githubusercontent.com/assets/1777595/26835596/4de3ba4a-4ae1-11e7-8798-90c314c6be1b.gif" width="32%"> 
 
 # Features
 * Based on interface implementation.
