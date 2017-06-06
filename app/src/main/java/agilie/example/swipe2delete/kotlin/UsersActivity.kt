@@ -25,16 +25,16 @@ class UsersActivity : android.support.v7.app.AppCompatActivity() {
 
     fun initRecyclerView() {
         adapter = UserAdapter(prepareContactList(60)) {
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show()
+            user -> Toast.makeText(this, user.toString(), Toast.LENGTH_SHORT).show()
         }
 
-        adapter?.swipeToDeleteAdapter?.pending = true
+        adapter?.swipeToDeleteDelegate?.pending = true
         recyclerView.adapter = adapter
 
         val dividerItemDecoration = DividerItemDecoration(this, VERTICAL)
         recyclerView.addItemDecoration(dividerItemDecoration)
 
-        val itemTouchHelper = ItemTouchHelper(adapter?.swipeToDeleteAdapter?.itemTouchCallBack)
+        val itemTouchHelper = ItemTouchHelper(adapter?.swipeToDeleteDelegate?.itemTouchCallBack)
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
@@ -47,7 +47,7 @@ class UsersActivity : android.support.v7.app.AppCompatActivity() {
             when (item?.itemId) {
                 R.id.action_undo_animation -> {
                     item.isChecked = !item.isChecked
-                    adapter?.animationEnable = item.isChecked
+                    adapter?.animationEnabled = item.isChecked
                     true
                 }
                 R.id.action_bottom_container -> {
@@ -57,7 +57,7 @@ class UsersActivity : android.support.v7.app.AppCompatActivity() {
                 }
                 R.id.action_pending -> {
                     item.isChecked = !item.isChecked
-                    adapter?.swipeToDeleteAdapter?.pending = item.isChecked
+                    adapter?.swipeToDeleteDelegate?.pending = item.isChecked
                     true
                 }
                 else -> super.onOptionsItemSelected(item)

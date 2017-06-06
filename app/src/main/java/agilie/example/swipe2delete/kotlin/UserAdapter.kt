@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.Interpolator
 import com.agilie.swipe2delete.ModelOptions
 import com.agilie.swipe2delete.SwipeToDeleteDelegate
 import com.agilie.swipe2delete.interfaces.IAnimationUpdateListener
@@ -20,42 +22,47 @@ import test.alexzander.swipetodelete.R.layout.activity_main_item
 class UserAdapter(val mutableList: MutableList<User>, var onItemClick: (User) -> Any) :
         RecyclerView.Adapter<UserAdapter.MyHolder>(), ISwipeToDeleteAdapter<Int, User, UserAdapter.MyHolder>, IAnimationUpdateListener, IAnimatorListener {
 
-    val swipeToDeleteAdapter = SwipeToDeleteDelegate(items = mutableList, swipeToDeleteAdapter = this)
-    var animationEnable = true
+    val swipeToDeleteDelegate = SwipeToDeleteDelegate(items = mutableList, swipeToDeleteAdapter = this)
+
+    var animationEnabled = true
     var bottomContainer = true
 
     init {
-        swipeToDeleteAdapter.deletingDuration = 3000
+        swipeToDeleteDelegate.deletingDuration = 3000
     }
 
     override fun getItemCount() = mutableList.size
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
-        swipeToDeleteAdapter.onBindViewHolder(holder, mutableList[position].id, position)
+        swipeToDeleteDelegate.onBindViewHolder(holder, mutableList[position].id, position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) =
             MyHolder(LayoutInflater.from(parent?.context).inflate(activity_main_item, parent, false))
 
     override fun removeItem(key: Int) {
-        swipeToDeleteAdapter.removeItem(key)
+        swipeToDeleteDelegate.removeItem(key)
     }
 
     override fun onAnimationEnd(animation: Animator?, options: ModelOptions<*>) {
-        if (animationEnable) swipeToDeleteAdapter.holders[options.key]?.progressBar?.visibility = View.GONE
+        if (animationEnabled) {
+            swipeToDeleteDelegate.holders[options.key]?.progressBar?.animate()?.x(0.0f)?.withEndAction {
+                swipeToDeleteDelegate.holders[options.key]?.progressBar?.visibility = View.GONE
+            }
+        }
     }
 
     override fun onAnimationUpdated(animation: ValueAnimator?, options: ModelOptions<*>) {
-        if (animationEnable) {
+        if (animationEnabled) {
             val posX = animation?.animatedValue as Float
-            swipeToDeleteAdapter.holders[options.key]?.progressBar?.x = posX
+            swipeToDeleteDelegate.holders[options.key]?.progressBar?.x = posX
             options.posX = posX
         }
     }
 
     override fun onAnimationStart(animation: Animator?, options: ModelOptions<*>) {
-        if (animationEnable) {
-            swipeToDeleteAdapter.holders[options.key]?.progressBar?.visibility = View.VISIBLE
+        if (animationEnabled) {
+            swipeToDeleteDelegate.holders[options.key]?.progressBar?.visibility = View.VISIBLE
         }
     }
 
@@ -79,10 +86,10 @@ class UserAdapter(val mutableList: MutableList<User>, var onItemClick: (User) ->
                 deletedName.text = "You have just deleted ${item.name}"
                 itemContainer.visibility = View.GONE
                 undoData.visibility = View.VISIBLE
-                if (animationEnable) {
+                if (animationEnabled) {
                     progressBar.visibility = View.VISIBLE
                 }
-                undoButton.setOnClickListener { swipeToDeleteAdapter.onUndo(key) }
+                undoButton.setOnClickListener { swipeToDeleteDelegate.onUndo(key) }
             }
 
         }
