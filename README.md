@@ -79,10 +79,6 @@ UserAdapter(...) : ... , IAnimationUpdateListener {
 
 This library is open-sourced by  [Agilie Team](https://www.agilie.com) <info@agilie.com>
 
-## Contributors
-
-[Roman Kapshuk](https://github.com/RomanKapshuk) - <roman.kapshuk@agilie.com>
-
 ## License
 
 The [MIT](LICENSE.MD) License (MIT) Copyright © 2017 [Agilie Team](https://www.agilie.com)
