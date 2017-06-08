@@ -75,6 +75,10 @@ UserAdapter(...) : ... , IAnimationUpdateListener {
 
 * To get more information refer our [usage example](https://github.com/agilie/SwipeToDelete/tree/master/app)
 
+## Troubleshooting
+Problems? Check the [Issues](https://github.com/agilie/SwipeToDelete/issues) block
+to find the solution or create an new issue that we will fix asap. Feel free to contribute.
+
 ## Author
 
 This library is open-sourced by [Agilie Team](https://www.agilie.com) <info@agilie.com>
