@@ -12,6 +12,26 @@
 
 # Usage
 
+### Gradle
+
+Add dependency in your `build.gradle` file:
+````gradle
+compile 'com.agilie:swipe2delete:1.0'
+````
+
+### Maven
+Add rependency in your `.pom` file:
+````xml
+<dependency>
+  <groupId>com.agilie</groupId>
+  <artifactId>swipe2delete</artifactId>
+  <version>1.0</version>
+  <type>pom</type>
+</dependency>
+````
+
+### How does it work?
+
 * Implement **ISwipeToDeleteAdapter** in your own adapter or another class.
 * Make instance of **SwipeToDeleteDelegate** in your own adapter 
 
