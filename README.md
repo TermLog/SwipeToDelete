@@ -1,4 +1,7 @@
 # SwipeToDelete
+
+[ ![Download](https://api.bintray.com/packages/agilie/maven/Swipe2Delete/images/download.svg) ](https://bintray.com/agilie/maven/Swipe2Delete/_latestVersion)
+
 <img src="https://cloud.githubusercontent.com/assets/1777595/26835596/4de3ba4a-4ae1-11e7-8798-90c314c6be1b.gif" width="32%"> 
 
 # Features
@@ -8,6 +11,26 @@
 * Easy way to handle deletion. All you need is to call **removeItem(key: K)**  which should be overriden in your adapter and to invoke **swipeToDeleteDelegate.removeItem(key: K)** at the end of method's definition.
 
 # Usage
+
+### Gradle
+
+Add dependency in your `build.gradle` file:
+````gradle
+compile 'com.agilie:swipe2delete:1.0'
+````
+
+### Maven
+Add rependency in your `.pom` file:
+````xml
+<dependency>
+  <groupId>com.agilie</groupId>
+  <artifactId>swipe2delete</artifactId>
+  <version>1.0</version>
+  <type>pom</type>
+</dependency>
+````
+
+### How does it work?
 
 * Implement **ISwipeToDeleteAdapter** in your own adapter or another class.
 * Make instance of **SwipeToDeleteDelegate** in your own adapter 
@@ -74,3 +97,25 @@ UserAdapter(...) : ... , IAnimationUpdateListener {
 ```
 
 * To get more information refer our [usage example](https://github.com/agilie/SwipeToDelete/tree/master/app)
+
+## Troubleshooting
+Problems? Check the [Issues](https://github.com/agilie/SwipeToDelete/issues) block
+to find the solution or create an new issue that we will fix asap. Feel free to contribute.
+
+## Author
+
+This library is open-sourced by [Agilie Team](https://www.agilie.com) <info@agilie.com>
+
+## Contributors
+
+- [Alexander Nekrasov](https://github.com/TermLog)
+- [Roman Kapshuk](https://github.com/RomanKapshuk)
+
+## Contact us
+
+<android@agilie.com>
+
+## License
+
+The [MIT](LICENSE.MD) License (MIT) Copyright © 2017 [Agilie Team](https://www.agilie.com)
+
