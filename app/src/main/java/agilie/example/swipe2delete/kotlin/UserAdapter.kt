@@ -69,7 +69,7 @@ class UserAdapter(val mutableList: MutableList<User>, var onItemClick: (User) ->
     override fun onBindCommonItem(holder: MyHolder, key: Int, item: User, position: Int) {
         holder.apply {
             name.text = item.name
-            id.text = item.id.toString()
+            id.text = item.country
             itemContainer.visibility = View.VISIBLE
             undoData.visibility = View.GONE
             progressBar.visibility = View.GONE

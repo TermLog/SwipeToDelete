@@ -25,7 +25,8 @@ class UsersActivity : android.support.v7.app.AppCompatActivity() {
 
     fun initRecyclerView() {
         adapter = UserAdapter(prepareContactList(60)) {
-            user -> Toast.makeText(this, user.toString(), Toast.LENGTH_SHORT).show()
+            user ->
+            Toast.makeText(this, user.toString(), Toast.LENGTH_SHORT).show()
         }
 
         adapter?.swipeToDeleteDelegate?.pending = true
