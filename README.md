@@ -2,12 +2,16 @@
 
 [ ![Download](https://api.bintray.com/packages/agilie/maven/Swipe2Delete/images/download.svg) ](https://bintray.com/agilie/maven/Swipe2Delete/_latestVersion)
 
-<img src="https://cloud.githubusercontent.com/assets/1777595/26835596/4de3ba4a-4ae1-11e7-8798-90c314c6be1b.gif" width="32%"> 
+<img src="https://user-images.githubusercontent.com/1777595/27508401-815a208a-58ec-11e7-838a-5ef06a1c4482.gif" width="32%"> 
+
+# What is SwipeToDelete?
+
+SwipeToDelete is a library you can use to simplify implementation of well-known (I believe for every Android developer :) ) swipe-to-delete behavior for your data lists. The main idea is that user has some time to undo unwanted *delete* operation. Swipe twice to remove the row immediately! Also, this library is fully customizable, feel free to use your own UI for *undo* layer, add extra buttons etc. 
 
 # Features
-* Based on interface implementation.
-* Supports pending deletion with bottom layout.
-* Full customization of upper layout and bottom layout.
+* Based on interface implementation;
+* Supports pending deletion with bottom layout;
+* Full customization of upper layout and bottom layout;
 * Easy way to handle deletion. All you need is to call **removeItem(key: K)**  which should be overriden in your adapter and to invoke **swipeToDeleteDelegate.removeItem(key: K)** at the end of method's definition.
 
 # Usage
@@ -96,7 +100,7 @@ UserAdapter(...) : ... , IAnimationUpdateListener {
 }
 ```
 
-* To get more information refer our [usage example](https://github.com/agilie/SwipeToDelete/tree/master/app)
+To get more information refer our [usage example](app/). Just clone the project and run this module. Examples are provided in [Java](app/src/main/java/agilie/example/swipe2delete/java/) and [Kotlin](app/src/main/java/agilie/example/swipe2delete/kotlin/) as well!
 
 ## Troubleshooting
 Problems? Check the [Issues](https://github.com/agilie/SwipeToDelete/issues) block
