@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.Interpolator
 import com.agilie.swipe2delete.ModelOptions
 import com.agilie.swipe2delete.SwipeToDeleteDelegate
 import com.agilie.swipe2delete.interfaces.IAnimationUpdateListener
@@ -71,7 +69,7 @@ class UserAdapter(val mutableList: MutableList<User>, var onItemClick: (User) ->
     override fun onBindCommonItem(holder: MyHolder, key: Int, item: User, position: Int) {
         holder.apply {
             name.text = item.name
-            id.text = item.id.toString()
+            id.text = item.country
             itemContainer.visibility = View.VISIBLE
             undoData.visibility = View.GONE
             progressBar.visibility = View.GONE
