@@ -1,4 +1,4 @@
-package test.alexzander.swipetodelete;
+package com.example.swipe2delete;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package test.alexzander.swipetodelete;
+package com.example.swipe2delete;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("test.alexzander.swipetodelete", appContext.getPackageName());
+        assertEquals("com.example.swipetodeletelib.test", appContext.getPackageName());
     }
 }
